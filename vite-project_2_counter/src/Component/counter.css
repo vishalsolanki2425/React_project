@@ -1,0 +1,9 @@
+.counter {
+    border: 3px dotted #fff;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.counter button{
+    margin: 5px;
+}

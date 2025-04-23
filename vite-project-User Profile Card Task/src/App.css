@@ -1,0 +1,134 @@
+#root {
+    max-width: 1180px;
+    margin: 0 auto;
+    /* padding: 2rem; */
+    /* text-align: center; */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #787878;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.profile {
+    display: flex;
+    justify-content: space-between;
+    gap: 90px;
+    flex-wrap: wrap;
+
+}
+
+.card-container {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 350px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.6s, box-shadow 0.3s;
+    transform-style: preserve-3d;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    text-align: center;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid white;
+    object-fit: cover;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-header h2 {
+    margin: 10px 0 5px;
+    font-size: 1.8rem;
+}
+
+.card-header .title {
+    margin: 0;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.detail-item i {
+    width: 30px;
+    height: 30px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: #6e8efb;
+}
+
+.card-footer {
+    padding: 0 25px 25px;
+    text-align: center;
+}
+
+.contact-btn {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(110, 142, 251, 0.4);
+}
+
+.contact-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(110, 142, 251, 0.6);
+}
+
+@media (max-width: 400px) {
+    .card-header {
+        padding: 20px 15px;
+    }
+
+    .profile-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .card-body,
+    .card-footer {
+        padding: 20px 15px;
+    }
+}
