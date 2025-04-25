@@ -2,6 +2,7 @@ import "../Component/Reviewform.css"
 
 
 const Reviewform = () => {
+
     return (
         <div className="reviewform">
             <h1>Add Review</h1>
@@ -14,11 +15,12 @@ const Reviewform = () => {
                 
                 <label>Rating </label>
                 <select id="rating" name="rating">
-                    <option value="5">5</option>
-                    <option value="4">4</option>
-                    <option value="3">3</option>
-                    <option value="2">2</option>
-                    <option value="1">1</option>
+                    <option></option>
+                    <option>5</option>
+                    <option>4</option>
+                    <option>3</option>
+                    <option>2</option>
+                    <option>1</option>
                 </select>
                 <button type="submit">Submit</button>
             </form>
