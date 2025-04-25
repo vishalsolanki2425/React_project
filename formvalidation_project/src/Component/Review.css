@@ -1,0 +1,39 @@
+h2 {
+    color: antiquewhite;
+}
+.container {
+    background-color: rgb(0, 0, 0);
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid rgb(255, 255, 255);
+    box-shadow: 0 0 10px rgb(255, 255, 255);
+    color: white;
+    font-size: 20px;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+.error {
+    color: red;
+    font-size: 15px;
+}
