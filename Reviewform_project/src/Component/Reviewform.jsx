@@ -6,13 +6,13 @@ const Reviewform = () => {
         <div className="reviewform">
             <h1>Add Review</h1>
             <form>
-                <label>Name : </label>
+                <label>Name </label>
                 <input type="text" id="name" name="name" />
 
-                <label>Review : </label>
+                <label>Review </label>
                 <textarea id="review" name="review" />
                 
-                <label>Rating : </label>
+                <label>Rating </label>
                 <select id="rating" name="rating">
                     <option value="5">5</option>
                     <option value="4">4</option>
