@@ -9,7 +9,7 @@
 
 .reviewform h1 {
     text-align: center;
-    color: #333
+    color: #000000
 }
 
 .reviewform form {
@@ -55,4 +55,9 @@
 
 .reviewform button:hover {
     background-color: #3a7bc8;
+}
+
+::placeholder {
+    color: #5e5e5e;
+    opacity: 1; 
 }
