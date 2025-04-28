@@ -7,8 +7,9 @@ const Reviewform = () => {
     const [review, setReview] = useState("")
     const [rating, setRating] = useState("0")
     const [errors, setErrors] = useState({})
+    const [submittedReviews, setSubmittedReviews] = useState([])
 
-    const erro = () => {
+    const validate = () => {
         const err = {}
 
         if (!name.trim()) err.name = "Name is required"
@@ -22,7 +23,13 @@ const Reviewform = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (erro()) {
+        if (validate()) {
+            setSubmittedReviews([...submittedReviews, {
+                name,
+                review,
+                rating
+            }])
+
             alert(`Thank you for your review ${name}`)
             setName("")
             setReview("")
@@ -36,23 +43,50 @@ const Reviewform = () => {
             <h1>Add Review</h1>
             <form onSubmit={handleSubmit}>
                 <label>Name</label>
-                <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)}  placeholder={errors.name || "Enter your name"} />
+                {errors.name && <span className="error">{errors.name}</span>}
+                <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
 
                 <label>Review</label>
-                <textarea id="review" name="review" value={review} onChange={(e) => setReview(e.target.value)}  placeholder={errors.review || "Enter your review"} />
+                {errors.review && <span className="error">{errors.review}</span>}
+                <textarea id="review" name="review" value={review} onChange={(e) => setReview(e.target.value)} />
 
                 <label>Rating</label>
-                <select id="rating" name="rating" value={rating} onChange={(e) => setRating(e.target.value)}  placeholder={errors.rating || "Select a rating"} >
-                    <option value="0">{errors.rating || "Select a rating"}</option>
-                    <option value="5">5 - Excellent</option>
-                    <option value="4">4 - Very Good</option>
-                    <option value="3">3 - Good</option>
-                    <option value="2">2 - Fair</option>
-                    <option value="1">1 - Poor</option>
+                {errors.rating && <span className="error">{errors.rating}</span>}
+                <select id="rating" name="rating" value={rating} onChange={(e) => setRating(e.target.value)}>
+                    <option value="0">Select a rating</option>
+                    <option value="5 (Excellent)">5 - Excellent</option>
+                    <option value="4 (Very Good)">4 - Very Good</option>
+                    <option value="3 (Good)">3 - Good</option>
+                    <option value="2 (Fair)">2 - Fair</option>
+                    <option value="1 (Poor)">1 - Poor</option>
                 </select>
 
                 <button type="submit">Submit</button>
             </form>
+
+            <div className="reviews-table">
+                <h2>Submitted Reviews</h2>
+                {submittedReviews.length === 0 ? (<p>No Reviews Found</p>) : (
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Rating</th>
+                                <th>Review</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {submittedReviews.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{item.name}</td>
+                                    <td>{item.rating}</td>
+                                    <td>{item.review}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
         </div>
     )
 }
