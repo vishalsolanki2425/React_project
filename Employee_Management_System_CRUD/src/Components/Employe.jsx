@@ -4,8 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
-// import { FaEdit, FaTrash } from 'react-icons/fa';
-import "../../src/Components/Employe.css";
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import "../Components/Employe.css";
 
 const Employe = () => {
     const [validated, setValidated] = useState(false);
@@ -67,7 +67,7 @@ const Employe = () => {
     return (
         <div>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <h2 className='fs-5'>Employee Management System</h2>
+                <h2 className='mb-5 text-center justify-content-center'>Employee Management System</h2>
                 <Row className="gap-4">
                     <Form.Group as={Col} md="8" controlId="validationCustom01" className="d-flex align-items-center justify-content-center gap-5">
                         <Form.Label className='w-100'>First Name : </Form.Label>
@@ -154,10 +154,10 @@ const Employe = () => {
                                 <td>{emp.phone}</td>
                                 <td>
                                     <Button variant="warning" size="sm" onClick={() => handleEdit(index)} className="me-2">
-                                        {/* <FaEdit /> */}
+                                        <FaEdit />
                                     </Button>
                                     <Button variant="danger" size="sm" onClick={() => handleDelete(index)}>
-                                        {/* <FaTrash /> */}
+                                        <FaTrash />
                                     </Button>
                                 </td>
                             </tr>
