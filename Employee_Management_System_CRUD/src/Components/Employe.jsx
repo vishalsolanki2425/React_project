@@ -134,7 +134,6 @@ const Employe = () => {
                 <Table striped bordered hover className="mt-4">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>First</th>
                             <th>Last</th>
                             <th>Email</th>
@@ -146,7 +145,6 @@ const Employe = () => {
                     <tbody>
                         {employees.map((emp, index) => (
                             <tr key={index}>
-                                <td>{index + 1}</td>
                                 <td>{emp.firstName}</td>
                                 <td>{emp.lastName}</td>
                                 <td>{emp.email}</td>
