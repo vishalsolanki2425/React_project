@@ -1,13 +1,24 @@
 .banner-section {
     /* padding: 50px 0; */
     background-color: #f8f9fa;
-    margin-top: 20px;
-}
 
-.carousel {
-    /* background-image: url(../../assets/shape-1.png); */
+}
+.banner_img{
+    padding-left: 100px;
+    /* position: absolute; */
+    top: 0;
+    right: 0;
+    width: 50%;
+}
+.imgbg {
+    background-image: url(../../assets/shape-1.png);
     object-fit: cover;
-    
+    background-size: cover;
+    background-position: center;
+    background-size: 700px 400px;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: bottom;
 }
 
 .carousel-item {
@@ -22,7 +33,7 @@
 }
 
 .carousel-caption h3 {
-    font-size: 50px;
+    font-size: 70px;
     margin-bottom: 15px;
     font-family: 'Josefin Sans', sans-serif;
 }
@@ -38,7 +49,7 @@
     font-size: 1.1rem;
     margin-bottom: 2rem;
 }
-
+    
 .discount {
     color: #dc3545;
     font-weight: bold;
@@ -55,10 +66,10 @@
 .sliderbtn {
     position: relative;
     display: inline-block;
-    padding: 10px 30px;
+    padding: 20px 30px !important;
     margin-bottom: 2rem;
     background: transparent;
-    border: 1px solid #000000;
+    border: 2px solid #000000;
     color: rgb(0, 0, 0);
     font-size: 16px;
     font-weight: 600;
@@ -93,6 +104,11 @@
 .slide span.active {
     color: #000;
     font-weight: bold;
+}
+
+.slide span {
+    /* margin-right: -60px; */
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {

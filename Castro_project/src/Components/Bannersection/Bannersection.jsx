@@ -19,41 +19,22 @@ function Bannersection() {
                 <Carousel activeIndex={index} onSelect={handleSelect} controls={false} indicators={false}>
                     <Carousel.Item>
                         <div className="container">
-                            <div className="row align-items-center">
-                                <div className="col-md-5">
-                                    <Carousel.Caption className="text-left p-0">
-                                        <h3>Up To <br /><span className="discount">50% </span>Discount</h3>
-                                        <h4>Summer Lookbook - 2020</h4>
-                                        <p>New Modern Stylist Fashionable Men's Wear Jeans Shirt.</p>
-                                        <button className="sliderbtn">Explore Now <FiArrowUpRight className="arrow-icon ms-2 fs-4" /></button>
+                            <div className="imgbg">
+                                <div className="row align-items-center">
+                                    <div className="col-md-5">
+                                        <Carousel.Caption className="text-left p-0">
+                                            <h3>Up To <br /><span className="discount">50% </span>Discount</h3>
+                                            <h4>Summer Lookbook - 2020</h4>
+                                            <p>New Modern Stylist Fashionable Men's Wear Jeans Shirt.</p>
+                                            <button className="sliderbtn">Explore Now <FiArrowUpRight className="arrow-icon ms-2 fs-4" /></button>
+                                        </Carousel.Caption>
                                         <div className="slide">
                                             <span className="active">01</span> / <span>02</span> / <span>03</span>
                                         </div>
-                                    </Carousel.Caption>
-                                </div>
-                                <div className="col-md-7">
-                                    <img src={bannerimg1} alt="First slide" className="img-fluid" />
-                                </div>
-                            </div>
-                        </div>
-                    </Carousel.Item>
-
-                    <Carousel.Item>
-                        <div className="container">
-                            <div className="row align-items-center">
-                                <div className="col-md-5">
-                                    <Carousel.Caption className="text-left p-0">
-                                        <h3>Up To <br /><span className="discount">50% </span>Discount</h3>
-                                        <h4>Winter Collection - 2020</h4>
-                                        <p className="lead">Warm and Stylish Winter Wear for Men.</p>
-                                        <button className="sliderbtn">Explore Now <FiArrowUpRight className="arrow-icon ms-2 fs-4" /></button>
-                                        <div className="slide-indicators">
-                                            <span>01</span> / <span className="active">02</span> / <span>03</span>
-                                        </div>
-                                    </Carousel.Caption>
-                                </div>
-                                <div className="col-md-7">
-                                    <img src={bannerimg2} alt="Second slide" className="img-fluid" />
+                                    </div>
+                                    <div className="col-md-7 banner_img">
+                                        <img src={bannerimg1} alt="First slide" className="img-fluid" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -61,20 +42,45 @@ function Bannersection() {
 
                     <Carousel.Item>
                         <div className="container">
-                            <div className="row align-items-center">
-                                <div className="col-md-5">
-                                    <Carousel.Caption className="text-left p-0">
-                                        <h3>Up To <br /><span className="discount">50% </span>Discount</h3>
-                                        <h4>Spring Collection - 2020</h4>
-                                        <p className="lead">Fresh and Light Spring Fashion for Men.</p>
-                                        <button className="sliderbtn">Explore Now <FiArrowUpRight className="arrow-icon ms-2 fs-4" /></button>
-                                        <div className="slide-indicators">
-                                            <span>01</span> / <span>02</span> / <span className="active">03</span>
-                                        </div>
-                                    </Carousel.Caption>
+                            <div className="imgbg">
+                                <div className="row align-items-center">
+                                    <div className="col-md-5">
+                                        <Carousel.Caption className="text-left p-0">
+                                            <h3>Up To <br /><span className="discount">50% </span>Discount</h3>
+                                            <h4>Winter Collection - 2020</h4>
+                                            <p className="lead">Warm and Stylish Winter Wear for Men.</p>
+                                            <button className="sliderbtn">Explore Now <FiArrowUpRight className="arrow-icon ms-2 fs-4" /></button>
+                                            <div className="slide-indicators">
+                                                <span>01</span> / <span className="active">02</span> / <span>03</span>
+                                            </div>
+                                        </Carousel.Caption>
+                                    </div>
+                                    <div className="col-md-7 banner_img">
+                                        <img src={bannerimg2} alt="Second slide" className="img-fluid" />
+                                    </div>
                                 </div>
-                                <div className="col-md-7">
-                                    <img src={bannerimg3} alt="Third slide" className="img-fluid" />
+                            </div>
+                        </div>
+                    </Carousel.Item>
+
+                    <Carousel.Item>
+                        <div className="container">
+                            <div className="imgbg">
+                                <div className="row align-items-center">
+                                    <div className="col-md-5">
+                                        <Carousel.Caption className="text-left p-0">
+                                            <h3>Up To <br /><span className="discount">50% </span>Discount</h3>
+                                            <h4>Spring Collection - 2020</h4>
+                                            <p className="lead">Fresh and Light Spring Fashion for Men.</p>
+                                            <button className="sliderbtn">Explore Now <FiArrowUpRight className="arrow-icon ms-2 fs-4" /></button>
+                                            <div className="slide-indicators">
+                                                <span>01</span> / <span>02</span> / <span className="active">03</span>
+                                            </div>
+                                        </Carousel.Caption>
+                                    </div>
+                                    <div className="col-md-7 banner_img">
+                                        <img src={bannerimg3} alt="Third slide" className="img-fluid" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
