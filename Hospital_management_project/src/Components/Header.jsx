@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router';
 import './Header.css'
-import Table from 'react-bootstrap/Table';
+import Homepage from './Homepage';
 
 
 function Hospital_header() {
@@ -24,22 +24,7 @@ function Hospital_header() {
                 </Container>
             </Navbar>
 
-            <div className="container mt-4">
-                <h2 className='text-center mb-5'>Patient List</h2>
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Patient Name</th>
-                            <th>Mobile Number</th>
-                            <th>Age</th>
-                            <th>Address</th>
-                            <th>Gender</th>
-                            <th>Problem</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                </Table>
-            </div>
+            <Homepage />
         </>
     )
 }
