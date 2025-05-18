@@ -45,36 +45,3 @@ function Hospital_header() {
 }
 
 export default Hospital_header;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* <tbody>
-                        {data.length === 0 ? (
-                            <tr><td colSpan="6" className="text-center">No data found</td></tr>
-                        ) : (
-                            data.map((item, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{item.patientName}</td>
-                                    <td>{item.mobileNumber}</td>
-                                    <td>{item.age}</td>
-                                    <td>{item.address}</td>
-                                    <td>{item.gender}</td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody> */}
