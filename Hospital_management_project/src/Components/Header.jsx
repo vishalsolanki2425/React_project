@@ -2,31 +2,27 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router';
-import './Header.css'
-import Homepage from './Homepage';
-
+import { Link } from 'react-router-dom';
+import './Header.css';
 
 function Hospital_header() {
-    return (
-        <>
-            <h1 className='text-center mb-5'>Hospital Management</h1>
-            <Navbar expand="lg" className="bg-body-tertiary">
-                <Container className='gap-5'>
-                    <a href="/" style={{ textDecoration: 'none', color: 'black' }}>Hospital</a>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="justify-content-between w-100">
-                            <Link href="#link" to={'/'} style={{ textDecoration: 'none', color: 'black' }}>Patient</Link>
-                            <Link href="#link" to={'Hospital_management'} style={{ textDecoration: 'none', color: 'black' }}>New Patient</Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-
-            <Homepage />
-        </>
-    )
+  return (
+    <header className="hospital-header">
+      <h1 className="hospital-title">Hospital Management</h1>
+      <Navbar expand="lg" className="hospital-navbar">
+        <Container>
+          <Link to="/" className="hospital-brand">Hospital</Link>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className="navbar-toggle" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="hospital-nav">
+              <Link to="/" className="nav-link">Patients</Link>
+              <Link to="/add" className="nav-link">New Patient</Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    </header>
+  )
 }
 
 export default Hospital_header;
