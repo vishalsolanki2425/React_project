@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Home() {
     const [patients, setPatients] = useState([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const storedPatients = localStorage.getItem("hospitalPatients");
