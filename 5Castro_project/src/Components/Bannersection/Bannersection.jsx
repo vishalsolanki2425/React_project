@@ -79,7 +79,7 @@ function Bannersection() {
                                         </Carousel.Caption>
                                     </div>
                                     <div className="col-md-7 banner_img">
-                                        <img src={bannerimg3} alt="Third slide" className="img-fluid" />
+                                        <img src={bannerimg3} alt="Third slide" className="img-fluid width-100" />
                                     </div>
                                 </div>
                             </div>

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Button, Table, Modal, Form } from "react-bootstrap";
+import { Button, Table, Modal, Form, Pagination } from "react-bootstrap";
 import Hospital_header from "../Components/Header";
 import { useState } from "react";
 
@@ -11,6 +11,11 @@ function Homepage() {
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [patients, setPatients] = useState(allPatients);
     const [search, setSearch] = useState("");
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+
+    const totalPages = Math.ceil(patients.length / itemsPerPage);
 
     const handleDelete = (id) => {
         const filtered = patients.filter(p => p.id !== id);
@@ -32,14 +37,33 @@ function Homepage() {
         const filtered = allPatients.filter((patient) =>
             patient.patientName.toLowerCase().includes(search.toLowerCase()) ||
             patient.mobileNumber.toLowerCase().includes(search.toLowerCase()) ||
-            patient.doctor.toLowerCase().includes(search.toLowerCase())
+            (patient.doctor || "").toLowerCase().includes(search.toLowerCase())
         );
         setPatients(filtered);
         setSearch("");
+        setCurrentPage(1);
     };
 
     const handleClear = () => {
         setPatients(allPatients);
+        setSearch("");
+        setCurrentPage(1);
+    };
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentPatients = patients.slice(indexOfFirstItem, indexOfLastItem);
+
+    const renderPagination = () => {
+        let items = [];
+        for (let number = 1; number <= totalPages; number++) {
+            items.push(
+                <Pagination.Item key={number} active={number === currentPage} onClick={() => setCurrentPage(number)}>
+                    {number}
+                </Pagination.Item>
+            );
+        }
+        return <Pagination>{items}</Pagination>;
     };
 
     return (
@@ -72,10 +96,10 @@ function Homepage() {
                     </tr>
                 </thead>
                 <tbody>
-                    {patients.length > 0 ? (
-                        patients.map((patient, index) => (
+                    {currentPatients.length > 0 ? (
+                        currentPatients.map((patient, index) => (
                             <tr key={patient.id}>
-                                <td>{index + 1}</td>
+                                <td>{indexOfFirstItem + index + 1}</td>
                                 <td>{patient.patientName}</td>
                                 <td>{patient.mobileNumber}</td>
                                 <td>{patient.age}</td>
@@ -94,6 +118,10 @@ function Homepage() {
                     )}
                 </tbody>
             </Table>
+
+            {patients.length > itemsPerPage && (
+                <div className="d-flex justify-content-center">{renderPagination()}</div>
+            )}
 
             <Modal show={showModal} onHide={handleClose}>
                 <Modal.Header closeButton>
