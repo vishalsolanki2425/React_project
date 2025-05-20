@@ -10,7 +10,7 @@ function Hospital_management() {
     mobileNumber: "",
     age: "",
     address: "",
-    problem: "",
+    doctor: "",
     gender: ""
   };
 
@@ -110,13 +110,13 @@ function Hospital_management() {
           </div>
         </Form.Group>
 
-        <Form.Group className="row mb-3" controlId="formProblem">
+        <Form.Group className="row mb-3" controlId="formdoctor">
           <Form.Label className="col-sm-2 col-form-label">Doctor Name</Form.Label>
           <div className="col-sm-10">
             <Form.Control
               type="text"
-              name="problem"
-              value={input.problem}
+              name="doctor"
+              value={input.doctor}
               onChange={handleChange}
             />
           </div>
