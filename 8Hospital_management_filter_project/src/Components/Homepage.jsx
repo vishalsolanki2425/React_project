@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Table, Modal, Form } from "react-bootstrap";
 import Hospital_header from "../Components/Header";
 import { useState } from "react";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 function Homepage() {
     const navigate = useNavigate();
@@ -42,6 +43,19 @@ function Homepage() {
         setPatients(allPatients);
     };
 
+    const handleSort = (field, order) => {
+        const sorted = [...patients].sort((a, b) => {
+            if (field === "age") {
+                return order === "asc" ? a.age - b.age : b.age - a.age;
+            } else {
+                return order === "asc"
+                    ? a[field].toLowerCase().localeCompare(b[field].toLowerCase())
+                    : b[field].toLowerCase().localeCompare(a[field].toLowerCase());
+            }
+        });
+        setPatients(sorted);
+    };
+
     return (
         <div className="container mt-4">
             <Hospital_header />
@@ -62,11 +76,23 @@ function Homepage() {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Patient Name</th>
+                        <th>
+                            Patient Name{" "}
+                            <IoMdArrowDropup onClick={() => handleSort("patientName", "asc")} style={{ cursor: "pointer" }} />
+                            <IoMdArrowDropdown onClick={() => handleSort("patientName", "desc")} style={{ cursor: "pointer" }} />
+                        </th>
                         <th>Mobile</th>
-                        <th>Age</th>
+                        <th>
+                            Age{" "}
+                            <IoMdArrowDropup onClick={() => handleSort("age", "asc")} style={{ cursor: "pointer" }} />
+                            <IoMdArrowDropdown onClick={() => handleSort("age", "desc")} style={{ cursor: "pointer" }} />
+                        </th>
                         <th>Address</th>
-                        <th>Gender</th>
+                        <th>
+                            Gender{" "}
+                            <IoMdArrowDropup onClick={() => handleSort("gender", "asc")} style={{ cursor: "pointer" }} />
+                            <IoMdArrowDropdown onClick={() => handleSort("gender", "desc")} style={{ cursor: "pointer" }} />
+                        </th>
                         <th>Doctor</th>
                         <th>Actions</th>
                     </tr>
@@ -94,6 +120,7 @@ function Homepage() {
                     )}
                 </tbody>
             </Table>
+
             <Modal show={showModal} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Patient Details</Modal.Title>
