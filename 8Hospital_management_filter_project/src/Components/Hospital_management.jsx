@@ -57,13 +57,7 @@ function Hospital_management() {
         <Form.Group className="row mb-3" controlId="formPatientName">
           <Form.Label className="col-sm-2 col-form-label">Patient Name</Form.Label>
           <div className="col-sm-10">
-            <Form.Control
-              type="text"
-              name="patientName"
-              value={input.patientName}
-              onChange={handleChange}
-              isInvalid={!!errors.patientName}
-            />
+            <Form.Control type="text" name="patientName" value={input.patientName} onChange={handleChange} isInvalid={!!errors.patientName} />
             <Form.Control.Feedback type="invalid">{errors.patientName}</Form.Control.Feedback>
           </div>
         </Form.Group>
@@ -71,13 +65,7 @@ function Hospital_management() {
         <Form.Group className="row mb-3" controlId="formMobile">
           <Form.Label className="col-sm-2 col-form-label">Mobile Number</Form.Label>
           <div className="col-sm-10">
-            <Form.Control
-              type="number"
-              name="mobileNumber"
-              value={input.mobileNumber}
-              onChange={handleChange}
-              isInvalid={!!errors.mobileNumber}
-            />
+            <Form.Control type="number" name="mobileNumber" value={input.mobileNumber} onChange={handleChange} sInvalid={!!errors.mobileNumber} />
             <Form.Control.Feedback type="invalid">{errors.mobileNumber}</Form.Control.Feedback>
           </div>
         </Form.Group>
@@ -85,13 +73,7 @@ function Hospital_management() {
         <Form.Group className="row mb-3" controlId="formAge">
           <Form.Label className="col-sm-2 col-form-label">Age</Form.Label>
           <div className="col-sm-10">
-            <Form.Control
-              type="number"
-              name="age"
-              value={input.age}
-              onChange={handleChange}
-              isInvalid={!!errors.age}
-            />
+            <Form.Control type="number" name="age" value={input.age} onChange={handleChange} isInvalid={!!errors.age} />
             <Form.Control.Feedback type="invalid">{errors.age}</Form.Control.Feedback>
           </div>
         </Form.Group>
@@ -99,13 +81,7 @@ function Hospital_management() {
         <Form.Group className="row mb-3" controlId="formAddress">
           <Form.Label className="col-sm-2 col-form-label">Address</Form.Label>
           <div className="col-sm-10">
-            <Form.Control
-              type="text"
-              name="address"
-              value={input.address}
-              onChange={handleChange}
-              isInvalid={!!errors.address}
-            />
+            <Form.Control type="text" name="address" value={input.address} onChange={handleChange} isInvalid={!!errors.address} />
             <Form.Control.Feedback type="invalid">{errors.address}</Form.Control.Feedback>
           </div>
         </Form.Group>
@@ -113,12 +89,7 @@ function Hospital_management() {
         <Form.Group className="row mb-3" controlId="formdoctor">
           <Form.Label className="col-sm-2 col-form-label">Doctor Name</Form.Label>
           <div className="col-sm-10">
-            <Form.Control
-              type="text"
-              name="doctor"
-              value={input.doctor}
-              onChange={handleChange}
-            />
+            <Form.Control type="text" name="doctor" value={input.doctor} onChange={handleChange} />
           </div>
         </Form.Group>
 
