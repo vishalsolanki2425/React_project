@@ -1,0 +1,24 @@
+.Recipe img {
+    width: 100px;
+}
+
+.Recipe h2 {
+    color: #6ca640;
+    font-size: 40px;
+}
+
+.custom-submit-btn {
+    background-color: #6ca640;
+    border: none;
+    padding: 10px 30px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 6px;
+}
+
+.custom-submit-btn:hover {
+    background-color: #c0d238;
+    color: #6ca640;
+}
