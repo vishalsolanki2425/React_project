@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { update_recipe, get_recipe } from '../../Services/Actions/Actionrecipe';
+import logo from '../../assets/images/recipelogo.avif';
+import { Link } from 'react-router-dom';
 
 const EditRecipe = () => {
     const { id } = useParams();
@@ -50,7 +52,12 @@ const EditRecipe = () => {
 
     return (
         <Container className="mt-4">
-            <h2>Edit Recipe</h2>
+            <nav className="navbar navbar-expand-lg d-flex align-items-center justify-content-center">
+                <Link className="navbar-logo" to="/">
+                    <img src={logo} alt="logo" />
+                </Link>
+                <h2 className="nav-recipe text-decoration-none">Edit Recipe</h2>
+            </nav>
             <Form onSubmit={handleUpdate}>
                 <Form.Group className="mb-3">
                     <Form.Label>Title</Form.Label>

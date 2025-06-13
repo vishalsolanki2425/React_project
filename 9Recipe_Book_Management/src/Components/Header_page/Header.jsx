@@ -65,7 +65,7 @@ function Header() {
                 ) : (
                     filteredRecipes.map((recipe, index) => (
                         <Col key={index} xs={12} sm={6} md={4} lg={3} className="mb-4">
-                            <Card className="shadow-sm h-100">
+                            <Card className="card_data shadow-sm h-100">
                                 <Card.Img
                                     variant="top"
                                     src={recipe.image}
