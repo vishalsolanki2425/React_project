@@ -27,29 +27,27 @@ const Product_Reducer = (state = initialState, action) => {
                 error: action.payload
             };
 
-        case "ADD_PRODUCTS": // Assuming this is your 'add to cart' action
+        case "ADD_PRODUCTS": 
             {
                 const existingItemIndex = state.cartItems.findIndex(
                     (item) => item.id === action.payload.id
                 );
 
                 if (existingItemIndex > -1) {
-                    // If item already exists, increment its quantity
                     const updatedCartItems = state.cartItems.map((item, index) =>
                         index === existingItemIndex
-                            ? { ...item, quantity: (item.quantity || 1) + 1 } // Ensure quantity property exists, then increment
+                            ? { ...item, quantity: (item.quantity || 1) + 1 } 
                             : item
                     );
                     return {
                         ...state,
-                        loading: false, // Assuming ADD_PRODUCTS also signals completion
+                        loading: false,
                         cartItems: updatedCartItems,
                     };
                 } else {
-                    // If item is new, add it with quantity 1
                     return {
                         ...state,
-                        loading: false, // Assuming ADD_PRODUCTS also signals completion
+                        loading: false,
                         cartItems: [...state.cartItems, { ...action.payload, quantity: 1 }],
                     };
                 }
@@ -69,14 +67,9 @@ const Product_Reducer = (state = initialState, action) => {
                 products: state.products.filter((prod) => prod.id !== action.payload),
             };
 
-        case "CART_PRODUCT_SUCCESS": // This might be redundant if "ADD_PRODUCTS" handles adding to cart
-            // This case might be used if you're fetching cart items after adding one
-            // However, if "ADD_PRODUCTS" handles quantity, this case simply adds without checking existing.
-            // Consider consolidating cart addition logic into one place (e.g., "ADD_PRODUCTS").
-            // For now, I'll assume it's for initial cart population or distinct 'add' behavior.
+        case "CART_PRODUCT_SUCCESS": 
             return {
                 ...state,
-                // Ensure quantity is set if not present when fetched, or handled by "ADD_PRODUCTS"
                 cartItems: [...state.cartItems, { ...action.payload, quantity: action.payload.quantity || 1 }]
             };
 
@@ -84,7 +77,7 @@ const Product_Reducer = (state = initialState, action) => {
         case "GET_CART_SUCCESS":
             return {
                 ...state,
-                cartItems: action.payload.map(item => ({ ...item, quantity: item.quantity || 1 })) // Ensure quantity property is set to 1 if not present
+                cartItems: action.payload.map(item => ({ ...item, quantity: item.quantity || 1 })) 
             };
 
         case "REMOVE_CART_ITEM":
@@ -93,13 +86,12 @@ const Product_Reducer = (state = initialState, action) => {
                 cartItems: state.cartItems.filter(item => item.id !== action.payload),
             };
 
-        // --- New cases for quantity management ---
         case "INCREMENT_QUANTITY":
             return {
                 ...state,
                 cartItems: state.cartItems.map(item =>
                     item.id === action.payload
-                        ? { ...item, quantity: (item.quantity || 1) + 1 } // Increment quantity, default to 1 if missing
+                        ? { ...item, quantity: (item.quantity || 1) + 1 } 
                         : item
                 ),
             };
@@ -110,13 +102,13 @@ const Product_Reducer = (state = initialState, action) => {
                 cartItems: state.cartItems
                     .map(item =>
                         item.id === action.payload
-                            ? { ...item, quantity: (item.quantity || 1) - 1 } // Decrement quantity, default to 1 if missing
+                            ? { ...item, quantity: (item.quantity || 1) - 1 } 
                             : item
                     )
-                    .filter(item => (item.quantity || 0) > 0), // Remove item if quantity becomes 0 or less
+                    .filter(item => (item.quantity || 0) > 0),
             };
 
-        case "CLEAR_CART": // New case to clear all cart items
+        case "CLEAR_CART":
             return {
                 ...state,
                 cartItems: [],
