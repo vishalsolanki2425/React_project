@@ -20,12 +20,11 @@ const Add_product = () => {
     };
 
     const [product, setProduct] = useState(initialState);
-    const [errors, setErrors] = useState({}); // State to hold validation errors
+    const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProduct({ ...product, [name]: value });
-        // Clear the error for the current field as the user types
         if (errors[name]) {
             setErrors(prevErrors => ({ ...prevErrors, [name]: "" }));
         }

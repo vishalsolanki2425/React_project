@@ -1,4 +1,6 @@
 import axios from "axios";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 export const getProductsSuc = (products) => ({
     type: "GET_PRODUCTS_SUCCESS",
@@ -56,17 +58,29 @@ export const removeCartItemSuccess = (id) => ({
 
 export const INCREMENT_QUANTITY = 'INCREMENT_QUANTITY';
 export const DECREMENT_QUANTITY = 'DECREMENT_QUANTITY';
-export const CLEAR_CART = 'CLEAR_CART'; 
+export const CLEAR_CART = 'CLEAR_CART';
 
-export const incrementQuantity = (productId) => ({ type: INCREMENT_QUANTITY, payload: productId });
-export const decrementQuantity = (productId) => ({ type: DECREMENT_QUANTITY, payload: productId });
-export const clearCart = () => ({ type: CLEAR_CART });
+export const incrementQuantity = (productId) => ({
+    type: INCREMENT_QUANTITY,
+    payload: productId
+});
+export const decrementQuantity = (productId) => ({
+    type: DECREMENT_QUANTITY,
+    payload: productId
+});
+export const clearCart = () => ({
+    type: CLEAR_CART
+});
 
 export const getProductsAsync = () => {
     return async (dispatch) => {
         dispatch(loading());
         try {
-            const res = await axios.get("http://localhost:3000/products");
+            let data = [];
+            let res = await getDocs(collection(db, "products"))
+            res.forEach((doc) => {
+                data.push({ ...doc.data(), id: doc.id });
+            })
             dispatch(getProductsSuc(res.data));
         } catch (error) {
             dispatch(getProductsRej(error.message));
@@ -78,7 +92,7 @@ export const addProductAsync = (product) => {
     return async (dispatch) => {
         dispatch(loading());
         try {
-            await axios.post("http://localhost:3000/products", product);
+            await addDoc(collection(db, "products"), product); 
             dispatch(addproductSuc());
             dispatch(getProductsAsync());
         } catch (error) {
