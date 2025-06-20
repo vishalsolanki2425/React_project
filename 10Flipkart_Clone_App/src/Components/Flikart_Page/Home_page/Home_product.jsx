@@ -3,7 +3,11 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { TiShoppingCart } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { deleteProductAsync, getProductsAsync, addToCartAsync } from "../../../Services/Actions/Productactions";
+import {
+    deleteProductAsync,
+    getProductsAsync,
+    addToCartAsync,
+} from "../../../Services/Actions/Productactions";
 import { Link } from "react-router-dom";
 import { Card, Col, Container, Form, Row } from "react-bootstrap";
 import Slider from "./Banner/slider";
@@ -33,21 +37,28 @@ function Home_product({ searchTerm }) {
 
     const categories = ["All", ...new Set(products.map((p) => p.category))];
 
-    const filteredProducts = products.filter((item) => {
-        const lowerCaseSearchTerm = searchTerm.toLowerCase();
-        const matchesSearchTerm =
-            item.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-            item.category.toLowerCase().includes(lowerCaseSearchTerm);
-
-        const matchCategory = categoryFilter === "All" || item.category === categoryFilter;
-
-        const matchPrice =
-            priceFilter === "" ||
-            (priceFilter === "0-1000" && item.price <= 1000) ||
-            (priceFilter === "1001-5000" && item.price > 1000 && item.price <= 5000) ||
-            (priceFilter === "5001+" && item.price > 5000);
-        return matchesSearchTerm && matchCategory && matchPrice;
-    });
+    const filteredProducts = products
+        .filter((item) => {
+            if (searchTerm) {
+                return (
+                    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    item.category.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+            return true;
+        })
+        .filter((item) => {
+            if (categoryFilter !== "All") {
+                return item.category === categoryFilter;
+            }
+            return true;
+        })
+        .filter((item) => {
+            if (priceFilter === "0-1000") return item.price <= 1000;
+            if (priceFilter === "1001-5000") return item.price > 1000 && item.price <= 5000;
+            if (priceFilter === "5001+") return item.price > 5000;
+            return true;
+        });
 
     return (
         <>
@@ -60,7 +71,11 @@ function Home_product({ searchTerm }) {
                     </div>
                     <div className="d-flex flex-wrap gap-5">
                         <div className="categoryFilter">
-                            <Form.Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} size="md">
+                            <Form.Select
+                                value={categoryFilter}
+                                onChange={(e) => setCategoryFilter(e.target.value)}
+                                size="md"
+                            >
                                 {categories.map((cat, index) => (
                                     <option key={index} value={cat}>
                                         {cat}
@@ -69,7 +84,11 @@ function Home_product({ searchTerm }) {
                             </Form.Select>
                         </div>
                         <div className="priceFilter">
-                            <Form.Select value={priceFilter} onChange={(e) => setPriceFilter(e.target.value)} size="md">
+                            <Form.Select
+                                value={priceFilter}
+                                onChange={(e) => setPriceFilter(e.target.value)}
+                                size="md"
+                            >
                                 <option value="">All Prices</option>
                                 <option value="0-1000">Below ₹1000</option>
                                 <option value="1001-5000">₹1001 - ₹5000</option>
@@ -81,26 +100,49 @@ function Home_product({ searchTerm }) {
 
                 <Row>
                     {filteredProducts.length === 0 ? (
-                        <h5 className='text-center'>No Products Match Your Filter</h5>
+                        <h5 className="text-center">No Products Match Your Filter</h5>
                     ) : (
                         filteredProducts.map((item) => (
                             <Col xs={12} sm={6} md={4} lg={2} key={item.id} className="mb-4">
                                 <Card className="product_card h-100">
                                     <div className="card_image text-center">
-                                        <Card.Img variant="top" src={item.image} className="card_img" />
+                                        <Card.Img
+                                            variant="top"
+                                            src={item.image}
+                                            className="card_img"
+                                        />
                                     </div>
                                     <Card.Body className="text-start">
                                         <Card.Text className="fw-semibold m-0">
-                                            {item.name.length > 40 ? item.name.slice(0, 40) + "..." : item.name}
+                                            {item.name.length > 40
+                                                ? item.name.slice(0, 40) + "..."
+                                                : item.name}
                                         </Card.Text>
                                         <Card.Text className="text-muted m-0">
-                                            {item.description.length > 50 ? item.description.slice(0, 50) + "..." : item.description}
+                                            {item.description.length > 50
+                                                ? item.description.slice(0, 50) + "..."
+                                                : item.description}
                                         </Card.Text>
-                                        <Card.Text className="text-success fw-bold">₹{item.price}</Card.Text>
+                                        <Card.Text className="text-success fw-bold">
+                                            ₹{item.price}
+                                        </Card.Text>
                                         <div className="fs-5 d-flex justify-content-center gap-3 card-icons mt-2">
-                                            <Link className="btn_icon1" to={"/cart"} onClick={() => handleAddToCart(item)}><TiShoppingCart /></Link>
-                                            <Link className="btn_icon2" to={`/edit/${item.id}`}><BiEdit /></Link>
-                                            <Link className="btn_icon3" onClick={() => handleDelete(item.id)}><MdOutlineDeleteOutline /></Link>
+                                            <Link
+                                                className="btn_icon1"
+                                                to={"/cart"}
+                                                onClick={() => handleAddToCart(item)}
+                                            >
+                                                <TiShoppingCart />
+                                            </Link>
+                                            <Link className="btn_icon2" to={`/edit/${item.id}`}>
+                                                <BiEdit />
+                                            </Link>
+                                            <Link
+                                                className="btn_icon3"
+                                                onClick={() => handleDelete(item.id)}
+                                            >
+                                                <MdOutlineDeleteOutline />
+                                            </Link>
                                         </div>
                                     </Card.Body>
                                 </Card>

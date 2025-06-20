@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './Components/Flikart_page/Header/Header';
 import { Routes, Route } from 'react-router-dom';
-import Add_product from './Components/Flikart_page/Add_product/Add_product';
+import Add_product from './Components/Flikart_Page/Add_product/Add_product';
 import Edit_product from './Components/Flikart_page/Edit_page/Edit_product';
 import Cart_page from './Components/Flikart_page/Cart_page/Cart_product';
 import Home_product from './Components/Flikart_Page/Home_page/Home_product';
