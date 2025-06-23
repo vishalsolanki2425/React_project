@@ -124,7 +124,7 @@ function Home_product({ searchTerm }) {
                                         <div className="fs-5 d-flex justify-content-center gap-3 card-icons mt-2">
                                             <Link
                                                 className="btn_icon1"
-                                                to={"/cart"}
+                                                // to={"/cart"}
                                                 onClick={() => handleAddToCart(item)}
                                             >
                                                 <TiShoppingCart />
