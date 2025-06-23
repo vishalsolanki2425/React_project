@@ -93,7 +93,7 @@ function Home_product({ searchTerm }) {
                     </div>
                 </div>
 
-                <Row>
+                <Row className="ms-2 me-2">
                     {filteredProducts.length === 0 ? (
                         <h5 className="text-center">No Products Match Your Filter</h5>
                     ) : (
