@@ -61,7 +61,8 @@
 
 .btn_icon1,
 .btn_icon2,
-.btn_icon3 {
+.btn_icon3,
+.btn_icon4 {
     background-color: var(--white);
     border-radius: 50%;
     padding: 8px;
@@ -87,6 +88,12 @@
 
 .btn_icon3:hover {
     color: var(--red);
+    transform: scale(1.1);
+    background-color: var(--white);
+}
+
+.btn_icon4:hover {
+    color: var(--primary-blue);
     transform: scale(1.1);
     background-color: var(--white);
 }
