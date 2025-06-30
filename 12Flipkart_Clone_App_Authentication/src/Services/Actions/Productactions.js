@@ -125,14 +125,21 @@ export const deleteProductAsync = (id) => {
 };
 
 export const getCartItemsAsync = () => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
         try {
+            const { user } = getState().authReducer;
+            if (!user) return;
+
             const items = [];
             const cartSnapshot = await getDocs(collection(db, "cart"));
 
-            cartSnapshot.forEach((cartDoc) => {
-                items.push({ id: cartDoc.id, ...cartDoc.data() });
+            cartSnapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                if (data.uid === user.uid) {
+                    items.push({ id: docSnap.id, ...data });
+                }
             });
+
             dispatch(getCartItemsSuccess(items));
         } catch (error) {
             dispatch(getCartItemsRej(error.message));
@@ -141,9 +148,13 @@ export const getCartItemsAsync = () => {
 };
 
 export const addToCartAsync = (product) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
         try {
-            const cartRef = doc(db, "cart", product.id);
+            const { user } = getState().authReducer;
+            if (!user) return;
+
+            const cartDocId = `${user.uid}_${product.id}`;
+            const cartRef = doc(db, "cart", cartDocId);
             const cartDoc = await getDoc(cartRef);
 
             if (cartDoc.exists()) {
@@ -153,15 +164,17 @@ export const addToCartAsync = (product) => {
                 await updateDoc(cartRef, { quantity: updatedQty });
                 dispatch(incrementQuantity(product.id));
             } else {
-                await setDoc(cartRef, { ...product, quantity: 1 });
-                dispatch(cartProductSuccess({ ...product, quantity: 1 }));
+                await setDoc(cartRef, { ...product, quantity: 1, uid: user.uid });
+                dispatch(cartProductSuccess({ ...product, quantity: 1, id: cartDocId }));
             }
+
             dispatch(getCartItemsAsync());
         } catch (error) {
-            dispatch(cartError(error.message));
+            console.error("Add to cart error:", error.message);
         }
     };
 };
+
 
 export const removeCartItemAsync = (id) => {
     return async (dispatch, getState) => {

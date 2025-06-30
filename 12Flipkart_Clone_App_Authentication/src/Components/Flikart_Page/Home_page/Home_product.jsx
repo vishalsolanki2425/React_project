@@ -60,7 +60,6 @@ function Home_product({ searchTerm }) {
     const handleAddToCart = (item) => {
         if (user) {
             dispatch(addToCartAsync(item));
-            navigate("/cart");
         } else {
             navigate("/signin");
         }
