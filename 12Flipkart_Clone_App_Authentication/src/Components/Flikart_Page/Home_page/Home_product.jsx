@@ -4,9 +4,21 @@ import { TiShoppingCart } from "react-icons/ti";
 import { AiOutlineEye } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { deleteProductAsync, getProductsAsync, addToCartAsync } from "../../../Services/Actions/Productactions";
-import { Link, useNavigate } from "react-router-dom";
-import { Card, Col, Container, Form, Row, Modal, Button } from "react-bootstrap";
+import {
+    deleteProductAsync,
+    getProductsAsync,
+    addToCartAsync
+} from "../../../Services/Actions/Productactions";
+import { useNavigate } from "react-router-dom";
+import {
+    Card,
+    Col,
+    Container,
+    Form,
+    Row,
+    Modal,
+    Button
+} from "react-bootstrap";
 import Slider from "./Banner/slider";
 import Banner from "./Banner/Banner";
 import "./Home_product.css";
@@ -27,17 +39,30 @@ function Home_product({ searchTerm }) {
     }, [dispatch]);
 
     const handleDelete = (id) => {
+        if (!user) {
+            navigate("/signin");
+            return;
+        }
+
         if (window.confirm("Are you sure to delete this product?")) {
             dispatch(deleteProductAsync(id));
+        }
+    };
+
+    const handleEdit = (id) => {
+        if (user) {
+            navigate(`/edit/${id}`);
+        } else {
+            navigate("/signin");
         }
     };
 
     const handleAddToCart = (item) => {
         if (user) {
             dispatch(addToCartAsync(item));
-            navigate("/cart"); // 👈 redirect to cart after adding
+            navigate("/cart");
         } else {
-            navigate("/signin"); // 👈 redirect to signin if not logged in
+            navigate("/signin");
         }
     };
 
@@ -143,15 +168,15 @@ function Home_product({ searchTerm }) {
                                             ₹{item.price}
                                         </Card.Text>
                                         <div className="fs-5 d-flex justify-content-center gap-3 card-icons mt-2">
-                                            <Link className="btn_icon4" onClick={() => handleViewProduct(item)}>
+                                            <button className="btn_icon4" onClick={() => handleViewProduct(item)}>
                                                 <AiOutlineEye />
-                                            </Link>
-                                            <Link className="btn_icon2" to={`/edit/${item.id}`}>
+                                            </button>
+                                            <button className="btn_icon2" onClick={() => handleEdit(item.id)}>
                                                 <BiEdit />
-                                            </Link>
-                                            <Link className="btn_icon3" onClick={() => handleDelete(item.id)}>
+                                            </button>
+                                            <button className="btn_icon3" onClick={() => handleDelete(item.id)}>
                                                 <MdOutlineDeleteOutline />
-                                            </Link>
+                                            </button>
                                         </div>
                                     </Card.Body>
                                 </Card>

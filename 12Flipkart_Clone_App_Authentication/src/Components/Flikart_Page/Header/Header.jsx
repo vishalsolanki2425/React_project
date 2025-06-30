@@ -16,6 +16,7 @@ import "./Header.css";
 function Header({ onSearch, currentSearchTerm }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const cartCount = useSelector((state) => state.Product_Reducer?.cartItems?.length || 0);
     const { user } = useSelector((state) => state.authReducer);
 
@@ -31,6 +32,7 @@ function Header({ onSearch, currentSearchTerm }) {
 
     const handleLogout = () => {
         dispatch(signOutAsync());
+        navigate("/");
     };
 
     return (
@@ -71,7 +73,8 @@ function Header({ onSearch, currentSearchTerm }) {
                 </div>
 
                 <Navbar.Collapse id="header-nav" className="header-nav d-lg-none justify-content-end m-0 align-items-center">
-                    <Nav className="header-nav-items d-flax align-items-center gap-5 justify-content-between me-5">
+                    <Nav className="header-nav-items d-flex align-items-center gap-5 justify-content-between me-5">
+
                         <Dropdown as={Nav.Item} className="header-login">
                             <Dropdown.Toggle as={Nav.Link}>
                                 <VscAccount className="me-2" style={{ fontSize: "24px" }} />
@@ -103,10 +106,10 @@ function Header({ onSearch, currentSearchTerm }) {
                                 <Dropdown.Item as={Link} to="/wishlist">
                                     <PiCreditCardLight className="me-2" /> Gift Cards
                                 </Dropdown.Item>
+
                                 {user && (
                                     <Dropdown.Item onClick={handleLogout}>
-                                        <VscAccount className="me-2" />
-                                        <Link to={"/"} className='text-dark text-decoration-none'>Logout</Link>
+                                        <VscAccount className="me-2" /> Logout
                                     </Dropdown.Item>
                                 )}
                             </Dropdown.Menu>
@@ -137,10 +140,21 @@ function Header({ onSearch, currentSearchTerm }) {
                             Become a Seller
                         </Nav.Link>
 
-                        <Nav.Link as={Link} to="/add" className="d-flex align-items-center">
-                            <MdAddShoppingCart className="me-2" style={{ fontSize: "24px" }} />
-                            Add Product
-                        </Nav.Link>
+                        {user ? (
+                            <Nav.Link as={Link} to="/add" className="d-flex align-items-center">
+                                <MdAddShoppingCart className="me-2" style={{ fontSize: "24px" }} />
+                                Add Product
+                            </Nav.Link>
+                        ) : (
+                            <Nav.Link
+                                onClick={() => navigate("/signin")}
+                                className="d-flex align-items-center"
+                                style={{ cursor: "pointer" }}
+                            >
+                                <MdAddShoppingCart className="me-2" style={{ fontSize: "24px" }} />
+                                Add Product
+                            </Nav.Link>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
