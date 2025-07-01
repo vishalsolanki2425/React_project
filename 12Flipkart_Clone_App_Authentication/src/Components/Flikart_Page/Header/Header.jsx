@@ -91,11 +91,11 @@ function Header({ onSearch, currentSearchTerm }) {
                                 <Dropdown.Item as={Link} to="/profile">
                                     <VscAccount className="me-2" /> My Profile
                                 </Dropdown.Item>
+                                <Dropdown.Item as={Link} to="/order">
+                                    <PiCodesandboxLogoDuotone className="me-2" /> My Orders
+                                </Dropdown.Item>
                                 <Dropdown.Item as={Link} to="/orders">
                                     <HiPlusSm className="me-2" /> Flipkart Plus Zone
-                                </Dropdown.Item>
-                                <Dropdown.Item as={Link} to="/wishlist">
-                                    <PiCodesandboxLogoDuotone className="me-2" /> Orders
                                 </Dropdown.Item>
                                 <Dropdown.Item as={Link} to="/wishlist">
                                     <PiHeartLight className="me-2" /> Wishlist

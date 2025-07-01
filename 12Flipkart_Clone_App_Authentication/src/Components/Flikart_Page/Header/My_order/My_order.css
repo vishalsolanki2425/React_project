@@ -1,0 +1,12 @@
+.order_product {
+    padding: 20px;
+    background-color: var(--background-gray);
+}
+
+.order_product h2 {
+    color: var(--secondary-yellow);
+}
+
+.order_product h2 span {
+    color: var(--primary-blue);
+}

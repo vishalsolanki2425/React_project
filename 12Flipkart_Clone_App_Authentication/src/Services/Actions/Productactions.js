@@ -191,3 +191,55 @@ export const removeCartItemAsync = (id) => {
         }
     };
 };
+
+export const placeOrderAsync = () => {
+    return async (dispatch, getState) => {
+        try {
+            const { cartItems } = getState().Product_Reducer;
+            const { user } = getState().authReducer;
+            if (!user || cartItems.length === 0) return;
+
+            const order = {
+                userId: user.uid,
+                items: cartItems,
+                total: cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0),
+                status: "Processing",
+                createdAt: new Date().toISOString()
+            };
+
+            const orderRef = await addDoc(collection(db, "orders"), order);
+            dispatch({ type: "ADD_ORDER_SUCCESS", payload: { id: orderRef.id, ...order } });
+
+            for (const item of cartItems) {
+                const cartId = `${user.uid}_${item.id}`;
+                await deleteDoc(doc(db, "cart", cartId));
+            }
+            dispatch({ type: "CLEAR_CART" });
+        } catch (error) {
+            console.error("Error placing order:", error.message);
+        }
+    };
+};
+
+export const getOrdersAsync = () => {
+    return async (dispatch, getState) => {
+        try {
+            const { user } = getState().authReducer;
+            if (!user) return;
+
+            const orders = [];
+            const ordersSnapshot = await getDocs(collection(db, "orders"));
+
+            ordersSnapshot.forEach((doc) => {
+                const data = doc.data();
+                if (data.userId === user.uid) {
+                    orders.push({ id: doc.id, ...data });
+                }
+            });
+
+            dispatch({ type: "GET_ORDERS_SUCCESS", payload: orders });
+        } catch (error) {
+            console.error("Error fetching orders:", error.message);
+        }
+    };
+};

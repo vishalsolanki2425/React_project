@@ -4,29 +4,18 @@ import { TiShoppingCart } from "react-icons/ti";
 import { AiOutlineEye } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-    deleteProductAsync,
-    getProductsAsync,
-    addToCartAsync
-} from "../../../Services/Actions/Productactions";
+import { deleteProductAsync, getProductsAsync, addToCartAsync } from "../../../Services/Actions/Productactions";
 import { useNavigate } from "react-router-dom";
-import {
-    Card,
-    Col,
-    Container,
-    Form,
-    Row,
-    Modal,
-    Button
-} from "react-bootstrap";
+import { Card, Col, Container, Form, Row, Modal, Button, Spinner } from "react-bootstrap";
 import Slider from "./Banner/slider";
 import Banner from "./Banner/Banner";
 import "./Home_product.css";
+import { toast, ToastContainer } from "react-toastify";
 
 function Home_product({ searchTerm }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { products } = useSelector((state) => state.Product_Reducer);
+    const { products, loading } = useSelector((state) => state.Product_Reducer);
     const { user } = useSelector((state) => state.authReducer);
 
     const [categoryFilter, setCategoryFilter] = useState("All");
@@ -46,6 +35,7 @@ function Home_product({ searchTerm }) {
 
         if (window.confirm("Are you sure to delete this product?")) {
             dispatch(deleteProductAsync(id));
+            toast.success("Product deleted successfully");
         }
     };
 
@@ -60,6 +50,7 @@ function Home_product({ searchTerm }) {
     const handleAddToCart = (item) => {
         if (user) {
             dispatch(addToCartAsync(item));
+            toast.success("Product added to cart");
         } else {
             navigate("/signin");
         }
@@ -102,6 +93,7 @@ function Home_product({ searchTerm }) {
 
     return (
         <>
+        <ToastContainer />
             <Banner />
             <Slider />
             <Container className="custom-container mt-4">
@@ -138,51 +130,60 @@ function Home_product({ searchTerm }) {
                     </div>
                 </div>
 
-                <Row className="ms-2 me-2">
-                    {filteredProducts.length === 0 ? (
-                        <h5 className="text-center">No Products Match Your Filter</h5>
-                    ) : (
-                        filteredProducts.map((item) => (
-                            <Col xs={12} sm={6} md={4} lg={2} key={item.id} className="mb-4">
-                                <Card className="product_card h-100">
-                                    <div className="card_image text-center">
-                                        <Card.Img
-                                            variant="top"
-                                            src={item.image}
-                                            className="card_img"
-                                        />
-                                    </div>
-                                    <Card.Body className="text-start">
-                                        <Card.Text className="fw-semibold m-0">
-                                            {item.name.length > 40
-                                                ? item.name.slice(0, 40) + "..."
-                                                : item.name}
-                                        </Card.Text>
-                                        <Card.Text className="text-muted m-0">
-                                            {item.description.length > 50
-                                                ? item.description.slice(0, 50) + "..."
-                                                : item.description}
-                                        </Card.Text>
-                                        <Card.Text className="text-success fw-bold">
-                                            ₹{item.price}
-                                        </Card.Text>
-                                        <div className="fs-5 d-flex justify-content-center gap-3 card-icons mt-2">
-                                            <button className="btn_icon4" onClick={() => handleViewProduct(item)}>
-                                                <AiOutlineEye />
-                                            </button>
-                                            <button className="btn_icon2" onClick={() => handleEdit(item.id)}>
-                                                <BiEdit />
-                                            </button>
-                                            <button className="btn_icon3" onClick={() => handleDelete(item.id)}>
-                                                <MdOutlineDeleteOutline />
-                                            </button>
+                {loading ? (
+                    <div className="text-center my-5">
+                        <Spinner animation="border" role="status" variant="primary">
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                        <p className="mt-2">Loading products...</p>
+                    </div>
+                ) : (
+                    <Row className="ms-2 me-2">
+                        {filteredProducts.length === 0 ? (
+                            <h5 className="text-center">No Products Match Your Filter</h5>
+                        ) : (
+                            filteredProducts.map((item) => (
+                                <Col xs={12} sm={6} md={4} lg={2} key={item.id} className="mb-4">
+                                    <Card className="product_card h-100">
+                                        <div className="card_image text-center">
+                                            <Card.Img
+                                                variant="top"
+                                                src={item.image}
+                                                className="card_img"
+                                            />
                                         </div>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        ))
-                    )}
-                </Row>
+                                        <Card.Body className="text-start">
+                                            <Card.Text className="fw-semibold m-0">
+                                                {item.name.length > 40
+                                                    ? item.name.slice(0, 40) + "..."
+                                                    : item.name}
+                                            </Card.Text>
+                                            <Card.Text className="text-muted m-0">
+                                                {item.description.length > 50
+                                                    ? item.description.slice(0, 50) + "..."
+                                                    : item.description}
+                                            </Card.Text>
+                                            <Card.Text className="text-success fw-bold">
+                                                ₹{item.price}
+                                            </Card.Text>
+                                            <div className="fs-5 d-flex justify-content-center gap-3 card-icons mt-2">
+                                                <button className="btn_icon4" onClick={() => handleViewProduct(item)}>
+                                                    <AiOutlineEye />
+                                                </button>
+                                                <button className="btn_icon2" onClick={() => handleEdit(item.id)}>
+                                                    <BiEdit />
+                                                </button>
+                                                <button className="btn_icon3" onClick={() => handleDelete(item.id)}>
+                                                    <MdOutlineDeleteOutline />
+                                                </button>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))
+                        )}
+                    </Row>
+                )}
             </Container>
 
             <Modal show={showModal} onHide={handleCloseModal} centered size="lg">

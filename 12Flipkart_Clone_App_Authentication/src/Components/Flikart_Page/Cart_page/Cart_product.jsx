@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCartItemsAsync, removeCartItemAsync, incrementQuantity, decrementQuantity, clearCart } from "../../../Services/Actions/Productactions";
+import { getCartItemsAsync, removeCartItemAsync, incrementQuantity, decrementQuantity, placeOrderAsync } from "../../../Services/Actions/Productactions";
 import { Container, Row, Col, Button, Badge, Modal } from "react-bootstrap";
 import { FiShoppingBag, FiTrash2, FiHeart, FiChevronDown } from "react-icons/fi";
 import cartempty from "../../../assets/images/Cartempty.png";
@@ -9,6 +9,7 @@ import Delivery from "../../../assets/images/Delivery.png"
 import { Link, useNavigate } from "react-router-dom";
 import done from "../../../assets/images/done.png"
 import "./Cart_product.css";
+import { toast, ToastContainer } from "react-toastify";
 
 function Cart_page() {
     const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function Cart_page() {
     const handleRemove = (id) => {
         if (window.confirm("Are you sure you want to remove this item?")) {
             dispatch(removeCartItemAsync(id));
+            toast.success("product removed from cart");
         }
     };
 
@@ -39,8 +41,16 @@ function Cart_page() {
     };
 
     const handlePlaceOrder = () => {
-        setShowOrderSuccess(true);
-        dispatch(clearCart());
+        if (cartItems.length > 0) {
+            dispatch(placeOrderAsync())
+                .then(() => {
+                    setShowOrderSuccess(true);
+                    toast.success("Order placed successfully!");
+                })
+                .catch((err) => {
+                    toast.error("Failed to place order. Try again.");
+                });
+        }
     };
 
     const handleCloseOrderSuccess = () => {
@@ -63,6 +73,7 @@ function Cart_page() {
                     My Cart
                 </h3>
             </div>
+            <ToastContainer />
 
             <Row className={cartItems.length === 0 ? "justify-content-center align-items-center" : ""}>
                 <Col lg={8} className="pe-lg-3">
@@ -77,7 +88,7 @@ function Cart_page() {
                             <h4 className="mb-3">Your cart is empty!</h4>
                             <p className="text-muted mb-4">Looks like you haven't added anything to your cart yet</p>
                             <Button variant="warning" className="px-4 fw-bold">
-                                <Link to={"/"} className="text-decoration-none" style={{ color: '#2a55e5'}}>Shop Now</Link>
+                                <Link to={"/"} className="text-decoration-none" style={{ color: '#2a55e5' }}>Shop Now</Link>
                             </Button>
                         </div>
                     ) : (
@@ -195,8 +206,9 @@ function Cart_page() {
                                     className="w-100 py-2 fw-bold"
                                     disabled={cartItems.length === 0}
                                     onClick={handlePlaceOrder}
+                                    style={{ color: '#2a55e5' }}
                                 >
-                                    <p className="m-0" style={{ color: "#2a55e5"}}>PLACE ORDER</p>
+                                    PLACE ORDER
                                 </Button>
 
                                 <div className="mt-3">
@@ -243,7 +255,7 @@ function Cart_page() {
                 </Modal.Body>
                 <Modal.Footer className="justify-content-center">
                     <Button variant="warning" onClick={handleCloseOrderSuccess} className="px-4 fw-bold">
-                        <Link className="text-decoration-none" style={{ color: '#2a55e5'}} to={"/"}>Done</Link>
+                        <Link className="text-decoration-none" style={{ color: '#2a55e5' }} to={"/"}>Done</Link>
                     </Button>
                 </Modal.Footer>
             </Modal>

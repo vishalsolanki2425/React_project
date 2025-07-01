@@ -1,6 +1,7 @@
 const initialState = {
     products: [],
     cartItems: [],
+    orders: [],
     loading: false,
     error: null,
 };
@@ -27,7 +28,7 @@ const Product_Reducer = (state = initialState, action) => {
                 error: action.payload
             };
 
-        case "ADD_PRODUCTS": 
+        case "ADD_PRODUCTS":
             {
                 const existingItemIndex = state.cartItems.findIndex(
                     (item) => item.id === action.payload.id
@@ -36,7 +37,7 @@ const Product_Reducer = (state = initialState, action) => {
                 if (existingItemIndex > -1) {
                     const updatedCartItems = state.cartItems.map((item, index) =>
                         index === existingItemIndex
-                            ? { ...item, quantity: (item.quantity || 1) + 1 } 
+                            ? { ...item, quantity: (item.quantity || 1) + 1 }
                             : item
                     );
                     return {
@@ -47,7 +48,7 @@ const Product_Reducer = (state = initialState, action) => {
                 } else {
                     return {
                         ...state,
-                        loading: false, 
+                        loading: false,
                         cartItems: [...state.cartItems, { ...action.payload, quantity: 1 }],
                     };
                 }
@@ -67,7 +68,7 @@ const Product_Reducer = (state = initialState, action) => {
                 products: state.products.filter((prod) => prod.id !== action.payload),
             };
 
-        case "CART_PRODUCT_SUCCESS": 
+        case "CART_PRODUCT_SUCCESS":
             return {
                 ...state,
                 cartItems: [...state.cartItems, { ...action.payload, quantity: action.payload.quantity || 1 }]
@@ -77,7 +78,7 @@ const Product_Reducer = (state = initialState, action) => {
         case "GET_CART_SUCCESS":
             return {
                 ...state,
-                cartItems: action.payload.map(item => ({ ...item, quantity: item.quantity || 1 })) 
+                cartItems: action.payload.map(item => ({ ...item, quantity: item.quantity || 1 }))
             };
 
         case "REMOVE_CART_ITEM":
@@ -108,9 +109,22 @@ const Product_Reducer = (state = initialState, action) => {
                     .filter(item => (item.quantity || 0) > 0),
             };
 
-        case "CLEAR_CART": 
+        case "CLEAR_CART":
             return {
                 ...state,
+                cartItems: [],
+            };
+
+        case "GET_ORDERS_SUCCESS":
+            return {
+                ...state,
+                orders: action.payload,
+            };
+
+        case "ADD_ORDER_SUCCESS":
+            return {
+                ...state,
+                orders: [...state.orders, action.payload],
                 cartItems: [],
             };
 

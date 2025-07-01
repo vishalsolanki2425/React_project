@@ -3,6 +3,7 @@ import generateUniqueId from "generate-unique-id";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
 import { addProductAsync } from "../../../Services/Actions/Productactions";
 import "./Add_product.css";
 
@@ -70,13 +71,17 @@ const Add_product = () => {
             });
             product.id = id;
             dispatch(addProductAsync(product));
+            toast.success("Product added successfully!");
             setProduct(initialState);
-            navigate("/");
+            setTimeout(() => {
+                navigate("/");
+            }, 2500);
         }
     };
 
     return (
         <>
+            <ToastContainer />
             <div className="add_product_img text-center">
                 <h2><span>Add</span> Product</h2>
             </div>

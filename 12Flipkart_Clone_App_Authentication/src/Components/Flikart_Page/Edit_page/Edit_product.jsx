@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { updateProductAsync, getProductsAsync } from "../../../Services/Actions/Productactions";
+import { toast, ToastContainer } from "react-toastify";
 import "./Edit_product.css";
 
 const Edit_product = () => {
@@ -76,13 +77,21 @@ const Edit_product = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            dispatch(updateProductAsync(id, product));
-            navigate("/");
+            dispatch(updateProductAsync(id, product)).then(() => {
+                toast.success("Updated successfully!");
+                setTimeout(() => {
+                    navigate("/");
+                }, 2500);
+            }).catch(() => {
+                toast.error("Update failed!");
+            });
         }
     };
 
+
     return (
         <>
+            <ToastContainer />
             <div className="edit_product_img text-center">
                 <h2><span>Edit</span> Product</h2>
             </div>
