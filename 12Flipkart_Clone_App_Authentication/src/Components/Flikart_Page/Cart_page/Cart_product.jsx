@@ -55,7 +55,7 @@ function Cart_page() {
 
     const handleCloseOrderSuccess = () => {
         setShowOrderSuccess(false);
-        navigate('/');
+        // navigate('/');
     };
 
     const totalPrice = cartItems.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 1)), 0);
@@ -255,7 +255,7 @@ function Cart_page() {
                 </Modal.Body>
                 <Modal.Footer className="justify-content-center">
                     <Button variant="warning" onClick={handleCloseOrderSuccess} className="px-4 fw-bold">
-                        <Link className="text-decoration-none" style={{ color: '#2a55e5' }} to={"/"}>Done</Link>
+                        <Link className="text-decoration-none" style={{ color: '#2a55e5' }} to={"/order"}>Done</Link>
                     </Button>
                 </Modal.Footer>
             </Modal>
