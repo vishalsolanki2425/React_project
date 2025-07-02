@@ -81,7 +81,7 @@ function Header({ onSearch, currentSearchTerm }) {
                                 {user?.email || "Login"}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item as={Link} to="/logout">
+                                <Dropdown.Item as={Link} to="/signup">
                                     <div className="d-flex gap-5">
                                         <span>New customer?</span>
                                         <Link to={"/signup"} className="text-decoration-none">Sign Up</Link>
