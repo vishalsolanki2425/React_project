@@ -93,7 +93,7 @@ function Home_product({ searchTerm }) {
 
     return (
         <>
-        <ToastContainer />
+            <ToastContainer />
             <Banner />
             <Slider />
             <Container className="custom-container mt-4">
@@ -206,7 +206,12 @@ function Home_product({ searchTerm }) {
                                 <p><strong>Price:</strong> ₹{selectedProduct?.price}</p>
                                 <p><strong>Category:</strong> {selectedProduct?.category}</p>
                                 <p><strong>Description:</strong> {selectedProduct?.description}</p>
-                                <p><strong>Rating:</strong> {selectedProduct?.rating || "N/A"}</p>
+                                <p>
+                                    <strong>Rating:</strong>{" "}
+                                    <span style={{ color: "green", fontWeight: "bold" }}>
+                                        {selectedProduct?.rating || "N/A"}
+                                    </span>
+                                </p>
                             </div>
                         </div>
                     </div>
