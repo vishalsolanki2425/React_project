@@ -91,13 +91,7 @@ function My_Orders() {
                                                     </span>
                                                 </div>
                                                 <div>
-                                                    <Button
-                                                        variant="outline-danger"
-                                                        size="sm"
-                                                        disabled={order.status === 'cancelled'}
-                                                    >
-                                                        {order.status === 'cancelled' ? 'Cancelled' : 'Cancel'}
-                                                    </Button>
+                                                    <Button variant="outline-success" size="sm" > Deliver</Button>
                                                 </div>
                                             </div>
                                         </div>
