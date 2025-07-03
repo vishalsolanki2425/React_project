@@ -184,4 +184,5 @@ const Add_product = () => {
     );
 };
 
+
 export default Add_product;
