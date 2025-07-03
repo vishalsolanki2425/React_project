@@ -101,7 +101,7 @@ function Home_product({ searchTerm }) {
                     <div className="best">
                         <h4 className="p-2">Best of Electronics</h4>
                     </div>
-                    <div className="d-flex flex-wrap gap-5">
+                    <div className="d-flex flex-wrap justify-content-center align-items-center gap-3">
                         <div className="categoryFilter">
                             <Form.Select
                                 value={categoryFilter}
@@ -170,12 +170,16 @@ function Home_product({ searchTerm }) {
                                                 <button className="btn_icon4" onClick={() => handleViewProduct(item)}>
                                                     <AiOutlineEye />
                                                 </button>
-                                                <button className="btn_icon2" onClick={() => handleEdit(item.id)}>
-                                                    <BiEdit />
-                                                </button>
-                                                <button className="btn_icon3" onClick={() => handleDelete(item.id)}>
-                                                    <MdOutlineDeleteOutline />
-                                                </button>
+                                                {user && (
+                                                    <>
+                                                        <button className="btn_icon2" onClick={() => handleEdit(item.id)}>
+                                                            <BiEdit />
+                                                        </button>
+                                                        <button className="btn_icon3" onClick={() => handleDelete(item.id)}>
+                                                            <MdOutlineDeleteOutline />
+                                                        </button>
+                                                    </>
+                                                )}
                                             </div>
                                         </Card.Body>
                                     </Card>

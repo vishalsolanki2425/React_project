@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { getProductsAsync } from '../../../Services/Actions/Productactions';
 import { signOutAsync } from "../../../Services/Actions/authAction";
 import "./Header.css";
+import { toast } from 'react-toastify';
 
 function Header({ onSearch, currentSearchTerm }) {
     const navigate = useNavigate();
@@ -33,6 +34,7 @@ function Header({ onSearch, currentSearchTerm }) {
     const handleLogout = () => {
         dispatch(signOutAsync());
         navigate("/");
+        toast.success("Logout Successfully");
     };
 
     return (
@@ -72,55 +74,62 @@ function Header({ onSearch, currentSearchTerm }) {
                     </div>
                 </div>
 
-                <Navbar.Collapse id="header-nav" className="header-nav d-lg-none justify-content-end m-0 align-items-center">
-                    <Nav className="header-nav-items d-flex align-items-center gap-5 justify-content-between me-5">
+                <Navbar.Collapse id="header-nav" className="header-nav d-lg-none justify-content-center m-0 align-items-center">
+                    <Nav className="header-nav-items d-flex gap-5 justify-content-between me-5 ms-5">
 
-                        <Dropdown as={Nav.Item} className="header-login">
-                            <Dropdown.Toggle as={Nav.Link}>
-                                <VscAccount className="me-2" style={{ fontSize: "24px" }} />
-                                {user?.email || "Login"}
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item as={Link} to="/signup">
-                                    <div className="d-flex gap-5">
-                                        <span>New customer?</span>
-                                        <Link to={"/signup"} className="text-decoration-none">Sign Up</Link>
-                                    </div>
-                                </Dropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item as={Link} to="/profile">
-                                    <VscAccount className="me-2" /> My Profile
-                                </Dropdown.Item>
-                                <Dropdown.Item as={Link} to="/order">
-                                    <PiCodesandboxLogoDuotone className="me-2" /> My Orders
-                                </Dropdown.Item>
-                                <Dropdown.Item as={Link} to="/orders">
-                                    <HiPlusSm className="me-2" /> Flipkart Plus Zone
-                                </Dropdown.Item>
-                                <Dropdown.Item as={Link} to="/wishlist">
-                                    <PiHeartLight className="me-2" /> Wishlist
-                                </Dropdown.Item>
-                                <Dropdown.Item as={Link} to="/wishlist">
-                                    <PiGiftLight className="me-2" /> Rewards
-                                </Dropdown.Item>
-                                <Dropdown.Item as={Link} to="/wishlist">
-                                    <PiCreditCardLight className="me-2" /> Gift Cards
-                                </Dropdown.Item>
-
-                                {user && (
+                        {user ? (
+                            <Dropdown as={Nav.Item} className="header-login">
+                                <Dropdown.Toggle as={Nav.Link}>
+                                    <VscAccount className="me-2" style={{ fontSize: "24px" }} />
+                                    {user.email}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item as={Link} to="/signup" className='gap-5 d-flex align-items-center'>
+                                        <span>New Customer ?</span> <Link to="/signup" className='text-decoration-none'>Sign Up</Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item as={Link} to="/profile">
+                                        <VscAccount className="me-2" /> My Profile
+                                    </Dropdown.Item>
+                                    <Dropdown.Item as={Link} to="/order">
+                                        <PiCodesandboxLogoDuotone className="me-2" /> My Orders
+                                    </Dropdown.Item>
+                                    <Dropdown.Item as={Link} to="/orders">
+                                        <HiPlusSm className="me-2" /> Flipkart Plus Zone
+                                    </Dropdown.Item>
+                                    <Dropdown.Item as={Link} to="/wishlist">
+                                        <PiHeartLight className="me-2" /> Wishlist
+                                    </Dropdown.Item>
+                                    <Dropdown.Item as={Link} to="/wishlist">
+                                        <PiGiftLight className="me-2" /> Rewards
+                                    </Dropdown.Item>
+                                    <Dropdown.Item as={Link} to="/wishlist">
+                                        <PiCreditCardLight className="me-2" /> Gift Cards
+                                    </Dropdown.Item>
+                                    <Dropdown.Divider />
                                     <Dropdown.Item onClick={handleLogout}>
                                         <VscAccount className="me-2" /> Logout
                                     </Dropdown.Item>
-                                )}
-                            </Dropdown.Menu>
-                        </Dropdown>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        ) : (
+                            <Nav.Item className="header-login">
+                                <Nav.Link as={Link} to="/signin">
+                                    <VscAccount className="me-2" style={{ fontSize: "24px" }} />
+                                    Login
+                                </Nav.Link>
+                            </Nav.Item>
+                        )}
 
                         <Nav.Link
                             onClick={() => {
                                 if (user) {
                                     navigate("/cart");
                                 } else {
-                                    navigate("/signin");
+                                    toast.error("Please Login!");
+                                    setTimeout(() => {
+                                        navigate("/signin");
+                                    }, 1000); 
                                 }
                             }}
                             className="position-relative d-flex align-items-center"
@@ -140,17 +149,8 @@ function Header({ onSearch, currentSearchTerm }) {
                             Become a Seller
                         </Nav.Link>
 
-                        {user ? (
+                        {user && (
                             <Nav.Link as={Link} to="/add" className="d-flex align-items-center">
-                                <MdAddShoppingCart className="me-2" style={{ fontSize: "24px" }} />
-                                Add Product
-                            </Nav.Link>
-                        ) : (
-                            <Nav.Link
-                                onClick={() => navigate("/signin")}
-                                className="d-flex align-items-center"
-                                style={{ cursor: "pointer" }}
-                            >
                                 <MdAddShoppingCart className="me-2" style={{ fontSize: "24px" }} />
                                 Add Product
                             </Nav.Link>

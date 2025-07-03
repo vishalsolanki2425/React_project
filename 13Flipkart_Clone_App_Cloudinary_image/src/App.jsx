@@ -13,7 +13,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Firebase';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signINSuc } from './Services/Actions/authAction';
 import My_Orders from './Components/Flikart_Page/Header/My_order/My_order';
 
@@ -35,15 +35,17 @@ function App() {
         setGlobalSearchTerm(term);
     };
 
+    const { user } = useSelector((state) => state.authReducer);
+
     return (
         <>
             <Header onSearch={handleSearchFromHeader} currentSearchTerm={globalSearchTerm} />
             <Routes>
                 <Route path="/" element={<Home_product searchTerm={globalSearchTerm} />} />
-                <Route path="/add" element={<Add_product />} />
-                <Route path="/edit/:id" element={<Edit_product />} />
-                <Route path="/order" element={<My_Orders />} />
-                <Route path="/cart" element={<Cart_page />} />
+                {user ? <Route path="/add" element={<Add_product />} /> : <Route path="/add" element={<SignIn />} />}
+                {user ? <Route path="/edit/:id" element={<Edit_product />} /> : <Route path="/edit/:id" element={<SignIn />} />}
+                {user ? <Route path="/myorders" element={<My_Orders />} /> : <Route path="/myorders" element={<SignIn />} />}
+                {user ? <Route path="/cart" element={<Cart_page />} /> : <Route path="/cart" element={<SignIn />} />}
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUP />} />
                 <Route path="/*" element={<Not_found />} />
