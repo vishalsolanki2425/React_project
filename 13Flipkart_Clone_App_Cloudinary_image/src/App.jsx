@@ -16,6 +16,7 @@ import { auth } from './Firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { signINSuc } from './Services/Actions/authAction';
 import My_Orders from './Components/Flikart_Page/Header/My_order/My_order';
+import View_product from './Components/Flikart_Page/View_product/View_product';
 
 function App() {
     const [globalSearchTerm, setGlobalSearchTerm] = useState('');
@@ -46,6 +47,7 @@ function App() {
                 {user ? <Route path="/edit/:id" element={<Edit_product />} /> : <Route path="/edit/:id" element={<SignIn />} />}
                 {user ? <Route path="/myorders" element={<My_Orders />} /> : <Route path="/myorders" element={<SignIn />} />}
                 {user ? <Route path="/cart" element={<Cart_page />} /> : <Route path="/cart" element={<SignIn />} />}
+                <Route path="/view/:id" element={<View_product />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUP />} />
                 <Route path="/*" element={<Not_found />} />

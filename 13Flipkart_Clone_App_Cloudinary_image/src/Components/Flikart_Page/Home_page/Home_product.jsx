@@ -1,12 +1,11 @@
 import { BiEdit } from "react-icons/bi";
 import { MdOutlineDeleteOutline } from "react-icons/md";
-import { TiShoppingCart } from "react-icons/ti";
 import { AiOutlineEye } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { deleteProductAsync, getProductsAsync, addToCartAsync } from "../../../Services/Actions/Productactions";
-import { useNavigate } from "react-router-dom";
-import { Card, Col, Container, Form, Row, Modal, Button, Spinner } from "react-bootstrap";
+import { deleteProductAsync, getProductsAsync } from "../../../Services/Actions/Productactions";
+import { Link, useNavigate } from "react-router-dom";
+import { Card, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import Slider from "./Banner/slider";
 import Banner from "./Banner/Banner";
 import "./Home_product.css";
@@ -20,8 +19,6 @@ function Home_product({ searchTerm }) {
 
     const [categoryFilter, setCategoryFilter] = useState("All");
     const [priceFilter, setPriceFilter] = useState("");
-    const [showModal, setShowModal] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState(null);
 
     useEffect(() => {
         dispatch(getProductsAsync());
@@ -45,25 +42,6 @@ function Home_product({ searchTerm }) {
         } else {
             navigate("/signin");
         }
-    };
-
-    const handleAddToCart = (item) => {
-        if (user) {
-            dispatch(addToCartAsync(item));
-            toast.success("Product added to cart");
-        } else {
-            navigate("/signin");
-        }
-    };
-
-    const handleViewProduct = (product) => {
-        setSelectedProduct(product);
-        setShowModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-        setSelectedProduct(null);
     };
 
     const categories = ["All", ...new Set(products.map((p) => p.category))];
@@ -144,95 +122,50 @@ function Home_product({ searchTerm }) {
                         ) : (
                             filteredProducts.map((item) => (
                                 <Col xs={12} sm={6} md={4} lg={2} key={item.id} className="mb-4">
-                                    <Card className="product_card h-100">
-                                        <div className="card_image text-center">
-                                            <Card.Img
-                                                variant="top"
-                                                src={item.image}
-                                                className="card_img"
-                                            />
-                                        </div>
-                                        <Card.Body className="text-start">
-                                            <Card.Text className="fw-semibold m-0">
-                                                {item.name.length > 40
-                                                    ? item.name.slice(0, 40) + "..."
-                                                    : item.name}
-                                            </Card.Text>
-                                            <Card.Text className="text-muted m-0">
-                                                {item.description.length > 50
-                                                    ? item.description.slice(0, 50) + "..."
-                                                    : item.description}
-                                            </Card.Text>
-                                            <Card.Text className="text-success fw-bold">
-                                                ₹{item.price}
-                                            </Card.Text>
-                                            <div className="fs-5 d-flex justify-content-center gap-3 card-icons mt-2">
-                                                <button className="btn_icon4" onClick={() => handleViewProduct(item)}>
-                                                    <AiOutlineEye />
-                                                </button>
-                                                {user && (
-                                                    <>
-                                                        <button className="btn_icon2" onClick={() => handleEdit(item.id)}>
-                                                            <BiEdit />
-                                                        </button>
-                                                        <button className="btn_icon3" onClick={() => handleDelete(item.id)}>
-                                                            <MdOutlineDeleteOutline />
-                                                        </button>
-                                                    </>
-                                                )}
+                                    <Link to={`/view/${item.id}`} className="text-decoration-none">
+                                        <Card className="product_card h-100">
+                                            <div className="card_image text-center">
+                                                <Card.Img
+                                                    variant="top"
+                                                    src={item.image}
+                                                    className="card_img"
+                                                />
                                             </div>
-                                        </Card.Body>
-                                    </Card>
+                                            <Card.Body className="text-start">
+                                                <Card.Text className="fw-semibold m-0">
+                                                    {item.name.length > 40
+                                                        ? item.name.slice(0, 40) + "..."
+                                                        : item.name}
+                                                </Card.Text>
+                                                <Card.Text className="text-muted m-0">
+                                                    {item.description.length > 50
+                                                        ? item.description.slice(0, 50) + "..."
+                                                        : item.description}
+                                                </Card.Text>
+                                                <Card.Text className="text-success fw-bold">
+                                                    ₹{item.price}
+                                                </Card.Text>
+                                                <div className="fs-5 d-flex justify-content-center gap-3 card-icons mt-2">
+                                                    {user && user.role === "admin" && (
+                                                        <>
+                                                            <button className="btn_icon2" onClick={() => handleEdit(item.id)}>
+                                                                <BiEdit />
+                                                            </button>
+                                                            <button className="btn_icon3" onClick={() => handleDelete(item.id)}>
+                                                                <MdOutlineDeleteOutline />
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </Card.Body>
+                                        </Card>
+                                    </Link>
                                 </Col>
                             ))
                         )}
                     </Row>
                 )}
             </Container>
-
-            <Modal show={showModal} onHide={handleCloseModal} centered size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>{selectedProduct?.name}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="container">
-                        <div className="row align-items-center p-5">
-                            <div className="col-md-5 text-center mb-3 mb-md-0">
-                                <img
-                                    src={selectedProduct?.image}
-                                    alt={selectedProduct?.name}
-                                    className="img-fluid rounded"
-                                    style={{ maxHeight: "300px", objectFit: "cover" }}
-                                />
-                            </div>
-                            <div className="col-md-7">
-                                <p><strong>Name:</strong> {selectedProduct?.name}</p>
-                                <p><strong>Price:</strong> ₹{selectedProduct?.price}</p>
-                                <p><strong>Category:</strong> {selectedProduct?.category}</p>
-                                <p><strong>Description:</strong> {selectedProduct?.description}</p>
-                                <p>
-                                    <strong>Rating:</strong>{" "}
-                                    <span style={{ color: "green", fontWeight: "bold" }}>
-                                        {selectedProduct?.rating || "N/A"}
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer className="d-flex justify-content-center">
-                    <Button
-                        variant="success"
-                        onClick={() => {
-                            handleAddToCart(selectedProduct);
-                            handleCloseModal();
-                        }}
-                    >
-                        <TiShoppingCart className="me-2" />
-                        Add to Cart
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </>
     );
 }
