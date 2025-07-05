@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Button, Badge } from "react-bootstrap";
 import { TiShoppingCart } from "react-icons/ti";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { BsShieldFillCheck, BsArrowLeft } from "react-icons/bs";
 import { getProductsAsync, addToCartAsync } from "../../../Services/Actions/Productactions";
 import { ToastContainer, toast } from "react-toastify";
@@ -33,28 +32,13 @@ const View_product = () => {
     const handleAddToCart = () => {
         if (!user) {
             toast.error("Please log in to add item to cart");
-            navigate("/signin");
+            setTimeout(() => {
+                navigate("/signin");
+            }, 2000);
             return;
         }
         dispatch(addToCartAsync(product));
         toast.success("Product added to cart");
-    };
-
-    const renderRatingStars = (rating) => {
-        const stars = [];
-        const fullStars = Math.floor(rating);
-        const hasHalfStar = rating % 1 >= 0.5;
-
-        for (let i = 1; i <= 5; i++) {
-            if (i <= fullStars) {
-                stars.push(<FaStar key={i} className="text-warning" />);
-            } else if (i === fullStars + 1 && hasHalfStar) {
-                stars.push(<FaStarHalfAlt key={i} className="text-warning" />);
-            } else {
-                stars.push(<FaRegStar key={i} className="text-warning" />);
-            }
-        }
-        return stars;
     };
 
     if (!product) {

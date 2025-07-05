@@ -88,7 +88,7 @@ function Header({ onSearch, currentSearchTerm }) {
                                         <span>New Customer ?</span> <Link to="/signup" className='text-decoration-none'>Sign Up</Link>
                                     </Dropdown.Item>
                                     <Dropdown.Divider />
-                                    <Dropdown.Item as={Link} to="/profile">
+                                    <Dropdown.Item as={Link} to="#">
                                         <VscAccount className="me-2" /> My Profile
                                     </Dropdown.Item>
                                     <Dropdown.Item as={Link} to="/order">
@@ -97,13 +97,13 @@ function Header({ onSearch, currentSearchTerm }) {
                                     <Dropdown.Item as={Link} to="/orders">
                                         <HiPlusSm className="me-2" /> Flipkart Plus Zone
                                     </Dropdown.Item>
-                                    <Dropdown.Item as={Link} to="/wishlist">
+                                    <Dropdown.Item as={Link} to="#">
                                         <PiHeartLight className="me-2" /> Wishlist
                                     </Dropdown.Item>
-                                    <Dropdown.Item as={Link} to="/wishlist">
+                                    <Dropdown.Item as={Link} to="#">
                                         <PiGiftLight className="me-2" /> Rewards
                                     </Dropdown.Item>
-                                    <Dropdown.Item as={Link} to="/wishlist">
+                                    <Dropdown.Item as={Link} to="#">
                                         <PiCreditCardLight className="me-2" /> Gift Cards
                                     </Dropdown.Item>
                                     <Dropdown.Divider />
