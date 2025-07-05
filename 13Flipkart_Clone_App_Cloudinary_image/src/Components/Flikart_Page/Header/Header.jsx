@@ -149,12 +149,12 @@ function Header({ onSearch, currentSearchTerm }) {
                             Become a Seller
                         </Nav.Link>
 
-                        {user && (
+                        {user && user.role == "admin" ?(
                             <Nav.Link as={Link} to="/add" className="d-flex align-items-center">
                                 <MdAddShoppingCart className="me-2" style={{ fontSize: "24px" }} />
                                 Add Product
                             </Nav.Link>
-                        )}
+                        ): ""}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

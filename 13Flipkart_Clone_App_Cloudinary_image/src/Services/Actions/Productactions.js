@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from "../../Firebase";
 
 export const getProductsSuc = (products) => ({
@@ -131,7 +131,7 @@ export const getCartItemsAsync = () => {
             if (!user) return;
 
             const items = [];
-            const cartSnapshot = await getDocs(collection(db, "cart"));
+            const cartSnapshot = await getDocs(collection(db, "cart") , where("uid", "==", user.uid));
 
             cartSnapshot.forEach((docSnap) => {
                 const data = docSnap.data();

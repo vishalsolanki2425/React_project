@@ -11,6 +11,7 @@ const SignUP = () => {
     const { isCreated, errorMSG } = useSelector(state => state.authReducer);
 
     const [inputForm, setInputForm] = useState({
+        fullName: "",
         email: "",
         password: "",
         cpassword: "",
@@ -58,6 +59,18 @@ const SignUP = () => {
                         {passwordError && <Alert variant="danger">{passwordError}</Alert>}
 
                         <Form onSubmit={handleSubmit}>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Full Name</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter Full Name"
+                                    name="fullName"
+                                    value={inputForm.fullName}
+                                    onChange={handleChanged}
+                                    required
+                                />
+                            </Form.Group>
+
                             <Form.Group className="mb-3">
                                 <Form.Label>Email Address</Form.Label>
                                 <Form.Control

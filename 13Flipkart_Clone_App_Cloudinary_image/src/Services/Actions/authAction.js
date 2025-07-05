@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { auth } from "../../Firebase";
+import { auth, db } from "../../Firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const signUpSuc = () => ({
     type: "SIGN_UP_SUC"
@@ -23,8 +24,21 @@ export const signUpAsync = (data) => {
     return async (dispatch) => {
         try {
             let userCred = await createUserWithEmailAndPassword(auth, data.email, data.password);
-            if (userCred.user) dispatch(signUpSuc());
+            if (userCred.user)
+                {
+                    let user= {
+                    email: userCred.user.email,
+                    id: userCred.user.uid,
+                    role: "user",
+                    displayName: data.fullName || "User",
+                    photoURL: userCred.user.photoURL || "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
+                }
+                // console.log("User Data :", user);
+                await setDoc(doc(db, "users", `${user.id}`), user);
+                dispatch(signUpSuc());
+                }
         } catch (error) {
+            console.error("Sign Up Error:", error);
             dispatch(errorMsg(error.message));
         }
     };
@@ -34,7 +48,15 @@ export const signINAsync = (data) => {
     return async (dispatch) => {
         try {
             let userCred = await signInWithEmailAndPassword(auth, data.email, data.password);
-            if (userCred.user) dispatch(signINSuc(userCred.user));
+            if (userCred.user) 
+            {
+                let docSnap = await getDoc(doc(db, "users", `${userCred.user.uid}`))
+                    if (docSnap.exists()) {
+                        let user = docSnap.data();
+                        dispatch(signINSuc(user));
+                    }
+                // dispatch(signINSuc(userCred.user));
+            }
         } catch (error) {
             dispatch(errorMsg(error.message));
         }
