@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../Firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -24,9 +24,8 @@ export const signUpAsync = (data) => {
     return async (dispatch) => {
         try {
             let userCred = await createUserWithEmailAndPassword(auth, data.email, data.password);
-            if (userCred.user)
-                {
-                    let user= {
+            if (userCred.user) {
+                let user = {
                     email: userCred.user.email,
                     id: userCred.user.uid,
                     role: "user",
@@ -36,7 +35,7 @@ export const signUpAsync = (data) => {
                 // console.log("User Data :", user);
                 await setDoc(doc(db, "users", `${user.id}`), user);
                 dispatch(signUpSuc());
-                }
+            }
         } catch (error) {
             console.error("Sign Up Error:", error);
             dispatch(errorMsg(error.message));
@@ -48,13 +47,12 @@ export const signINAsync = (data) => {
     return async (dispatch) => {
         try {
             let userCred = await signInWithEmailAndPassword(auth, data.email, data.password);
-            if (userCred.user) 
-            {
+            if (userCred.user) {
                 let docSnap = await getDoc(doc(db, "users", `${userCred.user.uid}`))
-                    if (docSnap.exists()) {
-                        let user = docSnap.data();
-                        dispatch(signINSuc(user));
-                    }
+                if (docSnap.exists()) {
+                    let user = docSnap.data();
+                    dispatch(signINSuc(user));
+                }
                 // dispatch(signINSuc(userCred.user));
             }
         } catch (error) {
@@ -66,9 +64,28 @@ export const signINAsync = (data) => {
 export const googleSignInAsync = () => {
     return async (dispatch) => {
         try {
-            let provider = new GoogleAuthProvider();
-            let userCred = await signInWithPopup(auth, provider);
-            if (userCred.user) dispatch(signINSuc(userCred.user));
+            const provider = new GoogleAuthProvider();
+            const userCred = await signInWithPopup(auth, provider);
+            const uid = userCred.user.uid;
+
+            const docRef = doc(db, "users", uid);
+            const docSnap = await getDoc(docRef);
+
+            let user;
+            if (docSnap.exists()) {
+                user = docSnap.data();
+            } else {
+                user = {
+                    id: uid,
+                    email: userCred.user.email,
+                    role: "user",
+                    displayName: userCred.user.displayName,
+                    photoURL: userCred.user.photoURL,
+                };
+                await setDoc(docRef, user);
+            }
+
+            dispatch(signINSuc(user));
         } catch (error) {
             dispatch(errorMsg(error.message));
         }
@@ -83,5 +100,24 @@ export const signOutAsync = () => {
         } catch (error) {
             dispatch(errorMsg(error.message));
         }
+    };
+};
+
+export const authCheckAsync = () => {
+    return async (dispatch) => {
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    const docRef = doc(db, "users", user.uid);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        const fullUser = docSnap.data(); // includes role
+                        dispatch(signINSuc(fullUser));
+                    }
+                } catch (error) {
+                    dispatch(errorMsg(error.message));
+                }
+            }
+        });
     };
 };

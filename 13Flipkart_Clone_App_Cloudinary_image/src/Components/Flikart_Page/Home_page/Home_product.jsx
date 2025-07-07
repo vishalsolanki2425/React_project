@@ -122,8 +122,8 @@ function Home_product({ searchTerm }) {
                         ) : (
                             filteredProducts.map((item) => (
                                 <Col xs={12} sm={6} md={4} lg={2} key={item.id} className="mb-4">
-                                    <Link to={`/view/${item.id}`} className="text-decoration-none">
-                                        <Card className="product_card h-100">
+                                    <Card className="product_card h-100">
+                                        <Link to={`/view/${item.id}`} className="text-decoration-none">
                                             <div className="card_image text-center">
                                                 <Card.Img
                                                     variant="top"
@@ -131,41 +131,42 @@ function Home_product({ searchTerm }) {
                                                     className="card_img"
                                                 />
                                             </div>
-                                            <Card.Body className="text-start">
-                                                <Card.Text className="fw-semibold m-0">
-                                                    {item.name.length > 40
-                                                        ? item.name.slice(0, 40) + "..."
-                                                        : item.name}
-                                                </Card.Text>
-                                                <Card.Text className="text-muted m-0">
-                                                    {item.description.length > 50
-                                                        ? item.description.slice(0, 50) + "..."
-                                                        : item.description}
-                                                </Card.Text>
-                                                <Card.Text className="text-success fw-bold">
-                                                    ₹{item.price}
-                                                </Card.Text>
-                                                <div className="fs-5 d-flex justify-content-center gap-3 card-icons mt-2">
-                                                    {user && user.role === "admin" && (
-                                                        <>
-                                                            <button className="btn_icon2" onClick={() => handleEdit(item.id)}>
-                                                                <BiEdit />
-                                                            </button>
-                                                            <button className="btn_icon3" onClick={() => handleDelete(item.id)}>
-                                                                <MdOutlineDeleteOutline />
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                </div>
-                                            </Card.Body>
-                                        </Card>
-                                    </Link>
+                                        </Link>
+                                        <Card.Body className="text-start">
+                                            <Card.Text className="fw-semibold m-0">
+                                                {item.name.length > 40
+                                                    ? item.name.slice(0, 40) + "..."
+                                                    : item.name}
+                                            </Card.Text>
+                                            <Card.Text className="text-muted m-0">
+                                                {item.description.length > 50
+                                                    ? item.description.slice(0, 50) + "..."
+                                                    : item.description}
+                                            </Card.Text>
+                                            <Card.Text className="text-success fw-bold">
+                                                ₹{item.price}
+                                            </Card.Text>
+                                            <div className="fs-5 d-flex justify-content-center gap-3 card-icons mt-2">
+                                                {user && user.role === "admin" && (
+                                                    <>
+                                                        <button className="btn_icon2" onClick={() => handleEdit(item.id)}>
+                                                            <BiEdit />
+                                                        </button>
+                                                        <button className="btn_icon3" onClick={() => handleDelete(item.id)}>
+                                                            <MdOutlineDeleteOutline />
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                    {/* </Link> */}
                                 </Col>
                             ))
                         )}
                     </Row>
                 )}
-            </Container>
+            </Container >
         </>
     );
 }

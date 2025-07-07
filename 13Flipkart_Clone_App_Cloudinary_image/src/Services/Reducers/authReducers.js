@@ -1,5 +1,6 @@
 const initialState = {
     user: null,
+    admin: null,
     isCreated: false,
     errorMSG: "",
 };
@@ -14,9 +15,9 @@ const authReducer = (state = initialState, action) => {
             };
         case "SIGN_IN_SUC":
             return {
-
                 ...state,
                 user: action.payload,
+                admin: action.payload.role === "admin" ? action.payload : null,
                 isCreated: false,
                 errorMSG: ""
             };
@@ -24,7 +25,8 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 user: null,
-                errorMSG: ""
+                admin: null,
+                errorMSG: "plases login again"
             };
         case "ERROR":
             return {
