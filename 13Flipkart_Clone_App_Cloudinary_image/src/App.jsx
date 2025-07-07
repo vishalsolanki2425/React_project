@@ -41,7 +41,7 @@ function App() {
                 {admin ? <Route path="/add" element={<Add_product />} /> : <Route path="/add" element={<SignIn />} />}
                 {admin ? <Route path="/edit/:id" element={<Edit_product />} /> : <Route path="/edit/:id" element={<SignIn />} />}
                 {user ? <Route path="/order" element={<My_Orders />} /> : <Route path="/order" element={<SignIn />} />}
-                {admin ? <Route path="/cart" element={<Cart_page />} /> : <Route path="/cart" element={<SignIn />} />}
+                {user ? <Route path="/cart" element={<Cart_page />} /> : <Route path="/cart" element={<SignIn />} />}
                 {user ? <Route path="/view/:id" element={<View_product />} /> : <Route path="/view/:id" element={<SignIn />} />}
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUP />} />
