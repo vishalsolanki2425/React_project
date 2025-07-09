@@ -124,18 +124,55 @@ export const deleteProductAsync = (id) => {
     };
 };
 
+export const addToCartAsync = (product) => {
+    return async (dispatch, getState) => {
+        try {
+            const { user } = getState().authReducer;
+            if (!user || !user.id || !product?.id) {
+                console.error("Invalid user or product:", { user, product });
+                return;
+            }
+
+            const cartDocId = `${user.id}_${product.id}`;
+            const cartRef = doc(db, "cart", cartDocId);
+            const cartDoc = await getDoc(cartRef);
+
+            if (cartDoc.exists()) {
+                await updateDoc(cartRef, { quantity: increment(1) });
+                dispatch(incrementQuantity(product.id));
+            } else {
+                await setDoc(cartRef, {
+                    ...product,
+                    quantity: 1,
+                    uid: user.id,
+                });
+                dispatch(cartProductSuccess({
+                    ...product,
+                    quantity: 1,
+                    id: cartDocId
+                }));
+            }
+
+            dispatch(getCartItemsAsync());
+        } catch (error) {
+            console.error("Add to cart error:", error.message);
+        }
+    };
+};
+
 export const getCartItemsAsync = () => {
     return async (dispatch, getState) => {
         try {
             const { user } = getState().authReducer;
-            if (!user) return;
+            if (!user || !user.id) return;
 
             const items = [];
-            const cartSnapshot = await getDocs(collection(db, "cart") , where("uid", "==", user.uid));
+            const cartRef = collection(db, "cart");
+            const snapshot = await getDocs(cartRef);
 
-            cartSnapshot.forEach((docSnap) => {
+            snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
-                if (data.uid === user.uid) {
+                if (data.uid === user.id) {
                     items.push({ id: docSnap.id, ...data });
                 }
             });
@@ -147,42 +184,13 @@ export const getCartItemsAsync = () => {
     };
 };
 
-export const addToCartAsync = (product) => {
-    return async (dispatch, getState) => {
-        try {
-            const { user } = getState().authReducer;
-            if (!user) return;
-
-            const cartDocId = `${user.uid}_${product.id}`;
-            const cartRef = doc(db, "cart", cartDocId);
-            const cartDoc = await getDoc(cartRef);
-
-            if (cartDoc.exists()) {
-                const currentItem = cartDoc.data();
-                const updatedQty = (currentItem.quantity || 1) + 1;
-
-                await updateDoc(cartRef, { quantity: updatedQty });
-                dispatch(incrementQuantity(product.id));
-            } else {
-                await setDoc(cartRef, { ...product, quantity: 1, uid: user.uid });
-                dispatch(cartProductSuccess({ ...product, quantity: 1, id: cartDocId }));
-            }
-
-            dispatch(getCartItemsAsync());
-        } catch (error) {
-            console.error("Add to cart error:", error.message);
-        }
-    };
-};
-
-
 export const removeCartItemAsync = (id) => {
     return async (dispatch, getState) => {
         try {
             const { user } = getState().authReducer;
-            if (!user) return;
+            if (!user || !user.id) return;
 
-            const cartId = `${user.uid}_${id}`;
+            const cartId = `${user.id}_${id}`;
             await deleteDoc(doc(db, "cart", cartId));
             dispatch(removeCartItemSuccess(cartId));
             dispatch(getCartItemsAsync());
@@ -197,10 +205,10 @@ export const placeOrderAsync = () => {
         try {
             const { cartItems } = getState().Product_Reducer;
             const { user } = getState().authReducer;
-            if (!user || cartItems.length === 0) return;
+            if (!user || !user.id || cartItems.length === 0) return;
 
             const order = {
-                userId: user.uid,
+                userId: user.id,
                 items: cartItems,
                 total: cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0),
                 status: "Processing",
@@ -211,7 +219,7 @@ export const placeOrderAsync = () => {
             dispatch({ type: "ADD_ORDER_SUCCESS", payload: { id: orderRef.id, ...order } });
 
             for (const item of cartItems) {
-                const cartId = `${user.uid}_${item.id}`;
+                const cartId = `${user.id}_${item.id}`;
                 await deleteDoc(doc(db, "cart", cartId));
             }
             dispatch({ type: "CLEAR_CART" });
@@ -225,15 +233,15 @@ export const getOrdersAsync = () => {
     return async (dispatch, getState) => {
         try {
             const { user } = getState().authReducer;
-            if (!user) return;
+            if (!user || !user.id) return;
 
             const orders = [];
-            const ordersSnapshot = await getDocs(collection(db, "orders"));
+            const snapshot = await getDocs(collection(db, "orders"));
 
-            ordersSnapshot.forEach((doc) => {
-                const data = doc.data();
-                if (data.userId === user.uid) {
-                    orders.push({ id: doc.id, ...data });
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                if (data.userId === user.id) {
+                    orders.push({ id: docSnap.id, ...data });
                 }
             });
 
